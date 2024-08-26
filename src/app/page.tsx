@@ -98,7 +98,7 @@ export default function Home() {
         </button>
       </div>
 
-      <div className="w-[643px] h-[251px] absolute right-0 bottom-0 flex items-end justify-end">
+      <div className="w-[444px] h-[199px] absolute right-0 bottom-0 flex items-end justify-end">
         <Image
           className="object-contain"
           src={ground}
