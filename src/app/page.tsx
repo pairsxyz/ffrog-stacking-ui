@@ -6,14 +6,14 @@ import bush3 from "../../public/bush-3.webp";
 import drFrog from "../../public/dr-frog.webp";
 import frog from "../../public/frog.webp";
 import ground from "../../public/ground.webp";
-import leave from "../../public/leave.webp";
+import leef from "../../public/leef.webp";
 import rock from "../../public/rock.webp";
 import mainText from "../../public/main-text.webp";
 import poolText from "../../public/pool-text.webp";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen flex flex-col relative">
+    <main className="w-full min-h-screen flex flex-col relative overflow-hidden">
       <Image
         className="object-cover -z-10"
         src={background}
@@ -25,35 +25,36 @@ export default function Home() {
 
       <div className="absolute left-[30%]">
         <Image
-          className="w-[612px] h-[107px] object-contain"
+          className="w-[484px] h-[84px] object-contain"
           src={mainText}
           alt="background"
           priority
           sizes="100vw"
         />
 
-        <p className="text-[45px] font-medium text-[#005B0F]">POOL SIZE</p>
-        <p className="text-[22px] font-medium text-white text-start">
-          Stake your $FFROG to participate in profit sharing from the entire
-          $FFROG ecosystem. Rewards are issued daily.
+        <p className="text-3xl font-medium text-[#005B0F]">POOL SIZE</p>
+        <p className="text-base font-medium text-white text-start">
+          Stake your $FFROG to participate in profit sharing from the
+          <br /> entire $FFROG ecosystem. Rewards are issued daily.
         </p>
       </div>
 
-      <div className="w-[383px] h-[178px] absolute right-0 top-0 flex items-center justify-center">
+      <div className="w-[278px] h-[129px] absolute right-20 top-0 flex items-center justify-center">
         <Image
           className="object-contain"
-          src={leave}
+          src={leef}
           alt="background"
           priority
           sizes="100vw"
           fill
         />
-        <p className="text-2xl font-medium text-[#005B0F] z-10">
-          CONNECT WALLET
+        <p className="text-xl font-medium text-[#005B0F] z-10">
+          CONNECT
+          <br /> WALLET
         </p>
       </div>
 
-      <div className="w-[344px] h-[219px] absolute right-0 top-[20%] flex items-center justify-center">
+      <div className="w-[250px] h-[159px] absolute right-20 top-[30%] flex items-center justify-center">
         <Image
           className="object-contain"
           src={bush3}
@@ -62,12 +63,12 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-2xl font-medium text-[#005B0F] mt-[10%] z-10">
+        <p className="text-xl font-medium text-[#005B0F] mt-[10%] z-10">
           UNSTAKE
         </p>
       </div>
 
-      <div className="w-[651px] h-[353px] absolute left-[25%] top-[20%] flex flex-col items-center justify-center">
+      <div className="w-[473px] h-[256px] absolute left-[30%] top-[25%] flex flex-col items-center justify-center">
         <Image
           className="object-contain"
           src={bush1}
@@ -77,24 +78,24 @@ export default function Home() {
           fill
         />
         <Image
-          className="w-[294px] h-[104px] object-contain z-10"
+          className="w-[213px] h-[75px] object-contain z-10"
           src={poolText}
           alt="background"
           priority
           sizes="100vw"
         />
-        <p className="text-[30px]font-medium text-black z-10">18% APY</p>
-        <p className="text-[22px]font-medium text-black z-10">
+        <p className="text-xl font-medium text-black z-10">18% APY</p>
+        <p className="text-base font-medium text-black z-10">
           Unlock Period of 7 days
         </p>
-        <p className="text-[15px] font-medium text-[#005B0F]">
+        <p className="text-[10px] font-medium text-[#005B0F]">
           Once you unstake, a timer of 7 days will begin
         </p>
         <button
-          className="w-[230px] h-[49px] rounded-[19px] border border-black z-10 bg-[#005B0F]"
-          style={{ boxShadow: "2.882px 3.843px 3.843px 0px #000" }}
+          className="w-[167px] h-[35px] rounded-[19px] border border-black z-10 bg-[#005B0F]"
+          style={{ boxShadow: "2.096px 2.795px 2.795px 0px #000" }}
         >
-          <span className="text-[35px] font-normal text-white">STAKE</span>
+          <span className="text-[25px] font-normal text-white">STAKE</span>
         </button>
       </div>
 
@@ -107,20 +108,20 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-[35px] font-medium text-[#826914] z-10 mb-[5%] mr-[8%]">
+        <p className="text-[25px] font-medium text-[#826914] z-10 mb-[5%] mr-[8%]">
           COMING SOON...
         </p>
       </div>
 
       <Image
-        className="w-[220px] h-[313px] object-contain absolute right-0 sm:right-[25%] bottom-[20%]"
+        className="w-[159px] h-[227px] object-contain absolute right-0 sm:right-[25%] bottom-[20%]"
         src={drFrog}
         alt="background"
         priority
         sizes="100vw"
       />
 
-      <div className="w-[800px] h-[279px] absolute left-0 sm:left-[20%] bottom-8 flex flex-col items-center justify-center">
+      <div className="w-[806px] h-[220px] absolute left-0 sm:left-[20%] bottom-8 flex flex-col items-center justify-center">
         <Image
           className="object-contain"
           src={rock}
@@ -129,17 +130,19 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-[35px] font-medium text-[#3D3D3D] mt-4 z-10">
+        <p className="text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
           MY STAKES & REWARDS
         </p>
-        <p className="text-[30px] font-medium text-white z-10">
+        <p className="text-2xl font-medium text-white z-10">
           Connect Your Wallet
         </p>
         <button
-          className="w-[230px] h-[49px] rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
-          style={{ boxShadow: "2.882px 3.843px 3.843px 0px #000" }}
+          className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
+          style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
         >
-          <span className="text-xl font-normal text-white">Connect Wallet</span>
+          <span className="text-base font-normal text-white">
+            Connect Wallet
+          </span>
         </button>
       </div>
 
@@ -152,13 +155,13 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-xl font-medium text-white z-10">
+        <p className="text-xl font-medium text-white mr-10 z-10">
           NO $FFROG REWARDED
         </p>
       </div>
 
       <Image
-        className="w-[200px] lg:w-[464px] object-contain absolute left-0 bottom-0"
+        className="w-[200px] lg:w-[338px] h-[374px] object-contain absolute left-0 bottom-0"
         src={frog}
         alt="background"
         priority
