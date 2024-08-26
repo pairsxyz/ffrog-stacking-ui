@@ -67,7 +67,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-[651px] h-[353px] absolute left-[30%] top-[20%] flex flex-col items-center justify-center">
+      <div className="w-[651px] h-[353px] absolute left-[25%] top-[20%] flex flex-col items-center justify-center">
         <Image
           className="object-contain"
           src={bush1}
