@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 import background from "../../public/background.webp";
 import bush1 from "../../public/bush-1.webp";
 import bush2 from "../../public/bush-2.webp";
@@ -10,10 +12,18 @@ import leef from "../../public/leef.webp";
 import rock from "../../public/rock.webp";
 import mainText from "../../public/main-text.webp";
 import poolText from "../../public/pool-text.webp";
+import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
+import StakeModal from "@/components/modal/stake-modal";
+import UnstakeModal from "@/components/modal/unstake-modal";
 
 export default function Home() {
+  const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
+    useState(false);
+  const [stakeMdalIsOpen, setStakeModalIsOpen] = useState(false);
+  const [unstakeMdalIsOpen, setUnstakeModalIsOpen] = useState(false);
+
   return (
-    <main className="w-full min-h-screen flex flex-col relative overflow-hidden">
+    <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
       <Image
         className="object-cover -z-10"
         src={background}
@@ -39,7 +49,10 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-[278px] h-[129px] absolute right-20 top-0 flex items-center justify-center">
+      <button
+        className="w-[278px] h-[129px] absolute right-20 top-0 flex items-center justify-center"
+        onClick={() => setConnectWalletModalIsOpen(true)}
+      >
         <Image
           className="object-contain"
           src={leef}
@@ -52,9 +65,12 @@ export default function Home() {
           CONNECT
           <br /> WALLET
         </p>
-      </div>
+      </button>
 
-      <div className="w-[250px] h-[159px] absolute right-20 top-[30%] flex items-center justify-center">
+      <button
+        className="w-[250px] h-[159px] absolute right-20 top-[30%] flex items-center justify-center"
+        onClick={() => setUnstakeModalIsOpen(true)}
+      >
         <Image
           className="object-contain"
           src={bush3}
@@ -66,7 +82,7 @@ export default function Home() {
         <p className="text-xl font-medium text-[#005B0F] mt-[10%] z-10">
           UNSTAKE
         </p>
-      </div>
+      </button>
 
       <div className="w-[473px] h-[256px] absolute left-[30%] top-[25%] flex flex-col items-center justify-center">
         <Image
@@ -94,6 +110,7 @@ export default function Home() {
         <button
           className="w-[167px] h-[35px] rounded-[19px] border border-black z-10 bg-[#005B0F]"
           style={{ boxShadow: "2.096px 2.795px 2.795px 0px #000" }}
+          onClick={() => setStakeModalIsOpen(true)}
         >
           <span className="text-[25px] font-normal text-white">STAKE</span>
         </button>
@@ -167,6 +184,20 @@ export default function Home() {
         priority
         sizes="100vw"
       />
+
+      {connectWalletModalIsOpen ? (
+        <ConnectWalletModal
+          handleCloseModal={() => setConnectWalletModalIsOpen(false)}
+        />
+      ) : null}
+
+      {stakeMdalIsOpen ? (
+        <StakeModal handleCloseModal={() => setStakeModalIsOpen(false)} />
+      ) : null}
+
+      {unstakeMdalIsOpen ? (
+        <UnstakeModal handleCloseModal={() => setUnstakeModalIsOpen(false)} />
+      ) : null}
     </main>
   );
 }
