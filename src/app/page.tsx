@@ -19,8 +19,8 @@ import UnstakeModal from "@/components/modal/unstake-modal";
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
     useState(false);
-  const [stakeMdalIsOpen, setStakeModalIsOpen] = useState(false);
-  const [unstakeMdalIsOpen, setUnstakeModalIsOpen] = useState(false);
+  const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
+  const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
@@ -192,11 +192,11 @@ export default function Home() {
         />
       ) : null}
 
-      {stakeMdalIsOpen ? (
+      {stakeModalIsOpen ? (
         <StakeModal handleCloseModal={() => setStakeModalIsOpen(false)} />
       ) : null}
 
-      {unstakeMdalIsOpen ? (
+      {unstakeModalIsOpen ? (
         <UnstakeModal handleCloseModal={() => setUnstakeModalIsOpen(false)} />
       ) : null}
     </main>
