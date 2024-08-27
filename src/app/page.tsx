@@ -156,6 +156,7 @@ export default function Home() {
         <button
           className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
           style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
+          onClick={() => setConnectWalletModalIsOpen(true)}
         >
           <span className="text-base font-normal text-white">
             Connect Wallet
