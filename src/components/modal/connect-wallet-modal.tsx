@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useWeb3Modal } from "@web3modal/solana/react";
 import flowers from "../../../public/flowers.webp";
 import drFrog from "../../../public/dr-frog.webp";
 import frog from "../../../public/frog.webp";
@@ -11,6 +12,8 @@ export default function ConnectWalletModal({
 }: {
   handleCloseModal: () => void;
 }) {
+  const { open } = useWeb3Modal();
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
@@ -29,7 +32,10 @@ export default function ConnectWalletModal({
             sizes="100vw"
           />
 
-          <button className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
+          <button
+            className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]"
+            onClick={() => open()}
+          >
             <Image
               className="w-[258px] h-[51px]"
               src={walletConnectLogo}
@@ -61,7 +67,13 @@ export default function ConnectWalletModal({
           </button> */}
         </div>
 
-        <Image src={flowers} alt="background" fill sizes="100vw" />
+        <Image
+          className="z-[-1]"
+          src={flowers}
+          alt="background"
+          fill
+          sizes="100vw"
+        />
 
         <Image
           className="w-[200px] h-[300px] absolute -right-14 top-10 z-30"

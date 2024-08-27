@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import background from "../../public/background.webp";
 import bush1 from "../../public/bush-1.webp";
 import bush2 from "../../public/bush-2.webp";
@@ -15,12 +15,17 @@ import poolText from "../../public/pool-text.webp";
 import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
+import { createSolanaWeb3Modal } from "@/providers/wallet-connect-config";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
     useState(false);
   const [stakeMdalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeMdalIsOpen, setUnstakeModalIsOpen] = useState(false);
+
+  useEffect(() => {
+    createSolanaWeb3Modal();
+  }, []);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
