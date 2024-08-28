@@ -16,7 +16,7 @@ export default function Alert({ type }: { type: "SUCCESS" | "FAIL" }) {
       >
         <div className="flex flex-col gap-4 items-center justify-center absolute top-20">
           <Image
-            className="w-[212px] h-[212px] "
+            className="w-[212px] h-[212px]"
             src={type === "SUCCESS" ? success : fail}
             alt="background"
             sizes="100vw"

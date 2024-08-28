@@ -29,6 +29,24 @@ export default function UnstakeModal({
             <br /> UNSTAKE?
           </p>
 
+          {/* FOR WHEN CICKED ON UNSTAKE AGAIN WHEN ALREADY HAS UNSTAKED */}
+          {/* <p
+            className="w-3/4 text-[30px] font-medium text-[#F5F5F5] text-center mb-20"
+            style={{
+              WebkitTextStrokeWidth: 1.4,
+              WebkitTextStrokeColor: "#000",
+            }}
+          >
+            YOUR $FFROG WILL ARRIVE IN YOUR WALLET IN 6 DAYS AND 59 MINUTES
+          </p> */}
+
+          {/* <button
+            className="w-[232px] flex items-center justify-center p-1 rounded-lg border-4 border-black bg-[#F6EFDB]"
+            onClick={handleCloseModal}
+          >
+            <span className="text-[35px] font-medium text-black">OK</span>
+          </button> */}
+
           <div className="w-[682px] flex flex-row gap-2 items-center justify-between px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
             <input className="w-full h-full outline-none bg-[#F6EFDB]" />
             <p

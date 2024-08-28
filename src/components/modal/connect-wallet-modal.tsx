@@ -17,7 +17,7 @@ export default function ConnectWalletModal({
       onClick={handleCloseModal}
     >
       <div
-        className="w-[1028px] h-[618px] flex flex-col rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
+        className="w-[1028px] h-[618px] flex flex-col items-center rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
         onClick={(e) => e.stopPropagation()}
         style={{ boxShadow: "0px 0.346px 0.346px 0px rgba(0, 0, 0, 0.25)" }}
       >
@@ -29,19 +29,10 @@ export default function ConnectWalletModal({
             sizes="100vw"
           />
 
-          <button className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
+          <button className="w-[682px] flex items-center justify-center px-6 py-3 mt-28 rounded-lg border-4 border-black bg-[#F6EFDB]">
             <Image
               className="w-[258px] h-[51px]"
               src={walletConnectLogo}
-              alt="background"
-              sizes="100vw"
-            />
-          </button>
-
-          <button className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
-            <Image
-              className="w-[258px] h-[51px]"
-              src={phantomLogo}
               alt="background"
               sizes="100vw"
             />
