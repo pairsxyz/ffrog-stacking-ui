@@ -22,8 +22,8 @@ createSolanaWeb3Modal();
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
     useState(false);
-  const [stakeMdalIsOpen, setStakeModalIsOpen] = useState(false);
-  const [unstakeMdalIsOpen, setUnstakeModalIsOpen] = useState(false);
+  const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
+  const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
@@ -159,6 +159,7 @@ export default function Home() {
         <button
           className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
           style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
+          onClick={() => setConnectWalletModalIsOpen(true)}
         >
           <span className="text-base font-normal text-white">
             Connect Wallet
@@ -194,11 +195,11 @@ export default function Home() {
         />
       ) : null}
 
-      {stakeMdalIsOpen ? (
+      {stakeModalIsOpen ? (
         <StakeModal handleCloseModal={() => setStakeModalIsOpen(false)} />
       ) : null}
 
-      {unstakeMdalIsOpen ? (
+      {unstakeModalIsOpen ? (
         <UnstakeModal handleCloseModal={() => setUnstakeModalIsOpen(false)} />
       ) : null}
     </main>
