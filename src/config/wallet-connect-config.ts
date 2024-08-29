@@ -26,6 +26,11 @@ export const createSolanaWeb3Modal = () =>
     chains,
     projectId,
     defaultChain: solana,
+    allowUnsupportedChain: false,
+    // featuredWalletIds: [
+    //   "a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393",
+    //   "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0",
+    // ],
   });
 
 export default solanaConfig;

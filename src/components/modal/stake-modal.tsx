@@ -2,12 +2,25 @@ import Image from "next/image";
 import branchLeft from "../../../public/branch-left.webp";
 import branchRight from "../../../public/branch-right.webp";
 import board from "../../../public/board.webp";
+import { useState } from "react";
 
 export default function StakeModal({
+  balance,
   handleCloseModal,
 }: {
+  balance: string;
   handleCloseModal: () => void;
 }) {
+  const [inputValue, setInputValue] = useState("0");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleMaxClick = () => {
+    setInputValue(balance);
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
@@ -39,13 +52,19 @@ export default function StakeModal({
 
         <div className="flex flex-col gap-3 items-center justify-center mt-[30%]">
           <div className="w-[682px] flex flex-row gap-2 items-center justify-between px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
-            <input className="w-full h-full outline-none bg-[#F6EFDB]" />
+            <input
+              className="w-full h-full outline-none bg-[#F6EFDB]"
+              type="number"
+              value={inputValue}
+              onChange={handleInputChange}
+            />
             <p
               className="text-[30px] font-medium text-[#F5F5F5]"
               style={{
                 WebkitTextStrokeWidth: 1.4,
                 WebkitTextStrokeColor: "#000",
               }}
+              onClick={handleMaxClick}
             >
               MAX
             </p>
@@ -58,7 +77,7 @@ export default function StakeModal({
               WebkitTextStrokeColor: "#000",
             }}
           >
-            <p>FFROG Available: </p>
+            <p>FFROG Available: {balance}</p>
           </div>
 
           <button className="w-[332px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]">

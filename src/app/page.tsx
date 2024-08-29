@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useWeb3ModalAccount } from "@web3modal/solana/react";
 import background from "../../public/background.webp";
 import bush1 from "../../public/bush-1.webp";
 import bush2 from "../../public/bush-2.webp";
@@ -16,14 +17,32 @@ import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
 import { createSolanaWeb3Modal } from "@/config/wallet-connect-config";
-
-createSolanaWeb3Modal();
+import { getFrogTokenBalance, initializeMoralis } from "@/lib/moralis";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
     useState(false);
   const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
+  const [frogBalance, setFrogBalance] = useState("0");
+
+  const { address, isConnected } = useWeb3ModalAccount();
+
+  useEffect(() => {
+    createSolanaWeb3Modal();
+    initializeMoralis();
+  }, []);
+
+  const handleOpenStakeModalButtonClick = async () => {
+    setStakeModalIsOpen(true);
+
+    if (address) {
+      const bal = await getFrogTokenBalance(address);
+      setFrogBalance(bal);
+    } else {
+      setFrogBalance("0");
+    }
+  };
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
@@ -65,7 +84,7 @@ export default function Home() {
           fill
         />
         <p className="text-xl font-medium text-[#005B0F] z-10">
-          CONNECT
+          {isConnected ? "MANAGE" : "CONNECT"}
           <br /> WALLET
         </p>
       </button>
@@ -113,7 +132,7 @@ export default function Home() {
         <button
           className="w-[167px] h-[35px] rounded-[19px] border border-black z-10 bg-[#005B0F]"
           style={{ boxShadow: "2.096px 2.795px 2.795px 0px #000" }}
-          onClick={() => setStakeModalIsOpen(true)}
+          onClick={handleOpenStakeModalButtonClick}
         >
           <span className="text-[25px] font-normal text-white">STAKE</span>
         </button>
@@ -153,18 +172,24 @@ export default function Home() {
         <p className="text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
           MY STAKES & REWARDS
         </p>
-        <p className="text-2xl font-medium text-white z-10">
-          Connect Your Wallet
-        </p>
-        <button
-          className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
-          style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
-          onClick={() => setConnectWalletModalIsOpen(true)}
-        >
-          <span className="text-base font-normal text-white">
-            Connect Wallet
-          </span>
-        </button>
+        {!isConnected ? (
+          <>
+            <p className="text-2xl font-medium text-white z-10">
+              Connect Your Wallet
+            </p>
+            <button
+              className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
+              style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
+              onClick={() => setConnectWalletModalIsOpen(true)}
+            >
+              <span className="text-base font-normal text-white">
+                Connect Wallet
+              </span>
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div className="w-[344px] h-[219px] absolute left-0 top-[10%] flex items-center justify-center">
@@ -196,7 +221,10 @@ export default function Home() {
       ) : null}
 
       {stakeModalIsOpen ? (
-        <StakeModal handleCloseModal={() => setStakeModalIsOpen(false)} />
+        <StakeModal
+          balance={frogBalance}
+          handleCloseModal={() => setStakeModalIsOpen(false)}
+        />
       ) : null}
 
       {unstakeModalIsOpen ? (
