@@ -15,17 +15,15 @@ import poolText from "../../public/pool-text.webp";
 import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
-import { createSolanaWeb3Modal } from "@/providers/wallet-connect-config";
+import { createSolanaWeb3Modal } from "@/config/wallet-connect-config";
+
+createSolanaWeb3Modal();
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
     useState(false);
   const [stakeMdalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeMdalIsOpen, setUnstakeModalIsOpen] = useState(false);
-
-  useEffect(() => {
-    createSolanaWeb3Modal();
-  }, []);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
