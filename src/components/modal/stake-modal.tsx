@@ -3,6 +3,9 @@ import branchLeft from "../../../public/branch-left.webp";
 import branchRight from "../../../public/branch-right.webp";
 import board from "../../../public/board.webp";
 import { useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useProgram } from "@/providers/ProgramProvider";
+import { stakeTokens } from "@/anchor/setup";
 
 export default function StakeModal({
   balance,
@@ -13,12 +16,31 @@ export default function StakeModal({
 }) {
   const [inputValue, setInputValue] = useState("0");
 
+  const wallet = useWallet();
+  const { program } = useProgram();
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const handleMaxClick = () => {
     setInputValue(balance);
+  };
+
+  const handleStakeClick = async () => {
+    if (!wallet.publicKey) {
+      throw new Error("Address not defined");
+    }
+
+    if (!program?.provider.connection) {
+      throw new Error("Connection not established");
+    }
+
+    try {
+      await stakeTokens(program, wallet, inputValue);
+    } catch (e) {
+      console.log("ERROR: ", e);
+    }
   };
 
   return (
@@ -80,7 +102,10 @@ export default function StakeModal({
             <p>FFROG Available: {balance}</p>
           </div>
 
-          <button className="w-[332px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]">
+          <button
+            className="w-[332px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
+            onClick={handleStakeClick}
+          >
             <span className="text-[45px] font-medium text-black">STAKE</span>
           </button>
         </div>

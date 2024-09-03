@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cooper } from "@/styles/fonts";
 import "../styles/globals.css";
+import { Web3ModalProvider, ProgramProvider } from "@/providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cooper.className}>{children}</body>
+      <body className={cooper.className}>
+        <Web3ModalProvider>
+          <ProgramProvider>{children}</ProgramProvider>
+        </Web3ModalProvider>
+      </body>
     </html>
   );
 }

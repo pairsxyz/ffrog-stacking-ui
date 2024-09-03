@@ -6,6 +6,7 @@ import frog from "../../../public/frog.webp";
 import mainText from "../../../public/main-text.webp";
 import walletConnectLogo from "../../../public/wallet-connect-logo.webp";
 import phantomLogo from "../../../public/phantom-logo.webp";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export default function ConnectWalletModal({
   handleCloseModal,
@@ -32,7 +33,7 @@ export default function ConnectWalletModal({
             sizes="100vw"
           />
 
-          <button
+          {/* <button
             className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]"
             onClick={() => open()}
           >
@@ -42,7 +43,9 @@ export default function ConnectWalletModal({
               alt="background"
               sizes="100vw"
             />
-          </button>
+          </button> */}
+
+          <WalletMultiButton />
 
           {/* Dissconnet */}
           {/* <button className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">

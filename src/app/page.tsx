@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useWeb3ModalAccount } from "@web3modal/solana/react";
 import background from "../../public/background.webp";
 import bush1 from "../../public/bush-1.webp";
 import bush2 from "../../public/bush-2.webp";
@@ -16,8 +15,9 @@ import poolText from "../../public/pool-text.webp";
 import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
-import { createSolanaWeb3Modal } from "@/config/wallet-connect-config";
 import { getFrogTokenBalance, initializeMoralis } from "@/lib/moralis";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
@@ -26,10 +26,9 @@ export default function Home() {
   const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
   const [frogBalance, setFrogBalance] = useState("0");
 
-  const { address, isConnected } = useWeb3ModalAccount();
+  const { publicKey: address, connected: isConnected } = useWallet();
 
   useEffect(() => {
-    createSolanaWeb3Modal();
     initializeMoralis();
   }, []);
 
@@ -37,7 +36,7 @@ export default function Home() {
     setStakeModalIsOpen(true);
 
     if (address) {
-      const bal = await getFrogTokenBalance(address);
+      const bal = await getFrogTokenBalance(address.toBase58());
       setFrogBalance(bal);
     } else {
       setFrogBalance("0");
@@ -71,9 +70,9 @@ export default function Home() {
         </p>
       </div>
 
-      <button
+      <div
         className="w-[278px] h-[129px] absolute right-20 top-0 flex items-center justify-center"
-        onClick={() => setConnectWalletModalIsOpen(true)}
+        //onClick={() => setConnectWalletModalIsOpen(true)}
       >
         <Image
           className="object-contain"
@@ -83,11 +82,16 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-xl font-medium text-[#005B0F] z-10">
+        {/* <p className="text-xl font-medium text-[#005B0F] z-10">
           {isConnected ? "MANAGE" : "CONNECT"}
           <br /> WALLET
-        </p>
-      </button>
+        </p> */}
+        <WalletMultiButton
+          style={{
+            backgroundColor: "transparent",
+          }}
+        />
+      </div>
 
       <button
         className="w-[250px] h-[159px] absolute right-20 top-[30%] flex items-center justify-center"
@@ -177,7 +181,13 @@ export default function Home() {
             <p className="text-2xl font-medium text-white z-10">
               Connect Your Wallet
             </p>
-            <button
+            <WalletMultiButton
+              style={{
+                backgroundColor: "#3D3D3D",
+                borderRadius: "19px",
+              }}
+            />
+            {/* <button
               className="w-[192px] h-[40px] mt-2 rounded-[19px] border border-black z-10 bg-[#3D3D3D]"
               style={{ boxShadow: "2.409px 3.212px 3.212px 0px #000;;" }}
               onClick={() => setConnectWalletModalIsOpen(true)}
@@ -185,7 +195,7 @@ export default function Home() {
               <span className="text-base font-normal text-white">
                 Connect Wallet
               </span>
-            </button>
+            </button> */}
           </>
         ) : (
           <></>
