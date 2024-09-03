@@ -18,6 +18,7 @@ export default function UnstakeModal({
   handleCloseModal: () => void;
 }) {
   const [inputValue, setInputValue] = useState("0");
+  const [pending, setPending] = useState(false);
   const [userAccountInfo, setUserAccountInfo] =
     useState<UserAccountData | null>();
 
@@ -66,9 +67,12 @@ export default function UnstakeModal({
     }
 
     try {
+      setPending(true);
       await unstakeAll(program, wallet);
     } catch (e) {
       console.log("ERROR: ", e);
+    } finally {
+      setPending(false);
     }
   };
   return (
@@ -153,6 +157,7 @@ export default function UnstakeModal({
         <button
           className="w-2/3 h-1/3 xl:w-[332px] xl:h-[69px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
           onClick={handleUnstakeClick}
+          disabled={pending}
         >
           <span className="text-base xl:text-[45px] font-medium text-black">
             UNSTAKE

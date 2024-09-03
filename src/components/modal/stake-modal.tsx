@@ -5,11 +5,7 @@ import board from "../../../public/board.webp";
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
-import {
-  getAssociatedTokenAccount,
-  stakeTokens,
-  TOKEN_MINT,
-} from "@/anchor/setup";
+import { stakeTokens } from "@/anchor/setup";
 
 export default function StakeModal({
   balance,
@@ -19,6 +15,7 @@ export default function StakeModal({
   handleCloseModal: () => void;
 }) {
   const [inputValue, setInputValue] = useState("0");
+  const [pending, setPending] = useState(false);
 
   const wallet = useWallet();
   const { program } = useProgram();
@@ -41,9 +38,12 @@ export default function StakeModal({
     }
 
     try {
+      setPending(true);
       await stakeTokens(program, wallet, inputValue);
     } catch (e) {
       console.log("ERROR: ", e);
+    } finally {
+      setPending(false);
     }
   };
 
@@ -113,6 +113,7 @@ export default function StakeModal({
         <button
           className="w-2/3 h-1/3 xl:w-[332px] xl:h-[69px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
           onClick={handleStakeClick}
+          disabled={pending}
         >
           <span className="text-base xl:text-[45px] font-medium text-black">
             STAKE
