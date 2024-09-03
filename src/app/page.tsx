@@ -104,7 +104,7 @@ export default function Home() {
       </button>
 
       <button
-        className="w-[150px] h-[96px] xl:w-[250px] xl:h-[159px] absolute right-[-10%] md:right-20 top-[20%] xl:top-[30%] flex items-center justify-center z-20 xl:z-0"
+        className="w-[150px] h-[96px] xl:w-[250px] xl:h-[159px] absolute right-0 md:right-20 top-[20%] xl:top-[30%] flex items-center justify-center z-20 xl:z-0"
         onClick={() => setUnstakeModalIsOpen(true)}
       >
         <Image
@@ -130,7 +130,7 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-xs xl:text-xl font-medium text-white ml-4 xl:ml-0 xl:mr-10 z-10">
+        <p className="text-xs xl:text-xl font-medium text-white ml-4 xl:ml-0 z-10">
           NO $FFROG REWARDED
         </p> */}
 
