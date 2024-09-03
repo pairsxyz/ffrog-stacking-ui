@@ -77,13 +77,13 @@ export default function UnstakeModal({
       onClick={handleCloseModal}
     >
       <div
-        className="w-[1028px] h-[618px] flex flex-col items-center justify-center rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
+        className="w-full xl:w-3/4 h-3/4 flex flex-col items-center justify-center rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
         onClick={(e) => e.stopPropagation()}
         style={{ boxShadow: "0px 0.346px 0.346px 0px rgba(0, 0, 0, 0.25)" }}
       >
-        <div className="flex flex-col gap-3 items-center justify-center mt-20">
+        <div className="flex flex-col gap-3 items-center justify-center mt-0 xl:mt-28">
           <p
-            className="text-[30px] font-medium text-[#F5F5F5] text-center"
+            className="text-base xl:text-3xl font-medium text-[#F5F5F5] text-center"
             style={{
               WebkitTextStrokeWidth: 1.4,
               WebkitTextStrokeColor: "#000",
@@ -95,23 +95,23 @@ export default function UnstakeModal({
 
           {/* FOR WHEN CICKED ON UNSTAKE AGAIN WHEN ALREADY HAS UNSTAKED */}
           {/* <p
-            className="w-3/4 text-[30px] font-medium text-[#F5F5F5] text-center mb-20"
+            className="w-3/4 text-base xl:text-3xl font-medium text-[#F5F5F5] text-center mb-20"
             style={{
               WebkitTextStrokeWidth: 1.4,
               WebkitTextStrokeColor: "#000",
             }}
           >
             YOUR $FFROG WILL ARRIVE IN YOUR WALLET IN 6 DAYS AND 59 MINUTES
-          </p> */}
+          </p>
 
-          {/* <button
-            className="w-[232px] flex items-center justify-center p-1 rounded-lg border-4 border-black bg-[#F6EFDB]"
+          <button
+            className="w-[180px] h-[49px] xl:w-[280px] xl:h-[69px] flex items-center justify-center p-1 rounded-lg border-4 border-black bg-[#F6EFDB]"
             onClick={handleCloseModal}
           >
-            <span className="text-[35px] font-medium text-black">OK</span>
+            <span className="text-base xl:text-[35px] font-medium text-black">OK</span>
           </button> */}
 
-          <div className="w-[682px] flex flex-row gap-2 items-center justify-between px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
+          <div className="w-2/3 xl:w-[682px] flex flex-row gap-2 items-center justify-between px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
             <input
               className="w-full h-full outline-none bg-[#F6EFDB]"
               type="number"
@@ -125,7 +125,7 @@ export default function UnstakeModal({
               disabled
             />
             <p
-              className="text-[30px] font-medium text-[#F5F5F5]"
+              className="text-base xl:text-3xl font-medium text-[#F5F5F5]"
               style={{
                 WebkitTextStrokeWidth: 1.4,
                 WebkitTextStrokeColor: "#000",
@@ -136,43 +136,43 @@ export default function UnstakeModal({
             </p>
           </div>
 
-          <div
-            className="self-start underline text-xl font-medium text-[#F5F5F5]"
+          <p
+            className="self-center xl:self-start underline text-base xl:text-xl font-medium text-[#F5F5F5]"
             style={{
               WebkitTextStrokeWidth: 1.4,
               WebkitTextStrokeColor: "#000",
             }}
           >
-            <p>
-              FFROG Staked:{" "}
-              {userAccountInfo?.stakedAmount
-                ? bnToRegular(userAccountInfo.stakedAmount)
-                : 0}
-            </p>
-          </div>
-
-          <button
-            className="w-[332px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
-            onClick={handleUnstakeClick}
-          >
-            <span className="text-[45px] font-medium text-black">UNSTAKE</span>
-          </button>
+            FFROG Staked:{" "}
+            {userAccountInfo?.stakedAmount
+              ? bnToRegular(userAccountInfo.stakedAmount)
+              : 0}
+          </p>
         </div>
 
-        <Image
-          className="w-[373px] h-[373px] absolute -left-10 -top-24"
-          src={branchLeft}
-          alt="background"
-          sizes="100vw"
-        />
-
-        <Image
-          className="w-[373px] h-[373px] absolute -right-16 -top-24"
-          src={branchRight}
-          alt="background"
-          sizes="100vw"
-        />
+        <button
+          className="w-2/3 h-1/3 xl:w-[332px] xl:h-[69px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
+          onClick={handleUnstakeClick}
+        >
+          <span className="text-base xl:text-[45px] font-medium text-black">
+            UNSTAKE
+          </span>
+        </button>
       </div>
+
+      <Image
+        className="w-[373px] h-[373px] hidden xl:block  absolute -left-10 -top-24"
+        src={branchLeft}
+        alt="background"
+        sizes="100vw"
+      />
+
+      <Image
+        className="w-[373px] h-[373px] hidden xl:block  absolute -right-16 -top-24"
+        src={branchRight}
+        alt="background"
+        sizes="100vw"
+      />
     </div>
   );
 }

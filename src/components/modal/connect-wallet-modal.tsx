@@ -1,27 +1,23 @@
 import Image from "next/image";
-import { useWeb3Modal } from "@web3modal/solana/react";
 import flowers from "../../../public/flowers.webp";
 import drFrog from "../../../public/dr-frog.webp";
 import frog from "../../../public/frog.webp";
 import mainText from "../../../public/main-text.webp";
 import walletConnectLogo from "../../../public/wallet-connect-logo.webp";
 import phantomLogo from "../../../public/phantom-logo.webp";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export default function ConnectWalletModal({
   handleCloseModal,
 }: {
   handleCloseModal: () => void;
 }) {
-  const { open } = useWeb3Modal();
-
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
       onClick={handleCloseModal}
     >
       <div
-        className="w-[1028px] h-[618px] flex flex-col items-center rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
+        className="w-full xl:w-3/4 h-3/4 flex flex-col items-center rounded-2xl border-4 border-[#00350E] relative z-20 bg-[#3EC800]"
         onClick={(e) => e.stopPropagation()}
         style={{ boxShadow: "0px 0.346px 0.346px 0px rgba(0, 0, 0, 0.25)" }}
       >
@@ -33,24 +29,19 @@ export default function ConnectWalletModal({
             sizes="100vw"
           />
 
-          {/* <button
-            className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]"
-            onClick={() => open()}
-          >
+          <button className="w-2/3 flex items-center justify-center px-4 xl:px-6 py-3 mt-28 rounded-lg border-4 border-black bg-[#F6EFDB]">
             <Image
-              className="w-[258px] h-[51px]"
+              className="w-[168px] h-[21px] xl:w-[258px] xl:h-[51px]"
               src={walletConnectLogo}
               alt="background"
               sizes="100vw"
             />
-          </button> */}
-
-          <WalletMultiButton />
+          </button>
 
           {/* Dissconnet */}
-          {/* <button className="w-[682px] flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
+          {/* <button className="w-2/3 flex items-center justify-center px-6 py-3 rounded-lg border-4 border-black bg-[#F6EFDB]">
             <span
-              className="text-[30px] font-medium text-white"
+              className="text-3xl font-medium text-white"
               style={{
                 WebkitTextStrokeWidth: 1.4,
                 WebkitTextStrokeColor: "#000",
@@ -61,23 +52,17 @@ export default function ConnectWalletModal({
           </button> */}
         </div>
 
-        <Image
-          className="z-[-1]"
-          src={flowers}
-          alt="background"
-          fill
-          sizes="100vw"
-        />
+        <Image src={flowers} alt="background" fill sizes="100vw" />
 
         <Image
-          className="w-[200px] h-[300px] absolute -right-14 top-10 z-30"
+          className="w-[200px] h-[300px] hidden xl:block absolute -right-14 top-10 z-30"
           src={drFrog}
           alt="background"
           sizes="100vw"
         />
 
         <Image
-          className="w-[200px] h-[200px] absolute left-[40%] bottom-0 z-30"
+          className="w-[200px] h-[200px] hidden xl:block absolute left-[40%] bottom-0 z-30"
           src={frog}
           alt="background"
           sizes="100vw"
