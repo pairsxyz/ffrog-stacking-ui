@@ -4,7 +4,6 @@ import drFrog from "../../../public/dr-frog.webp";
 import frog from "../../../public/frog.webp";
 import mainText from "../../../public/main-text.webp";
 import walletConnectLogo from "../../../public/wallet-connect-logo.webp";
-import phantomLogo from "../../../public/phantom-logo.webp";
 
 export default function ConnectWalletModal({
   handleCloseModal,
