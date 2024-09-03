@@ -135,7 +135,7 @@ export default function Home() {
         </p> */}
 
         {/* TODO: FROG STAKED */}
-        {/* <p className="w-[80%] text-[8px] xl:text-[30px] font-medium text-white z-10">
+        {/* <p className="w-[80%] text-[8px] xl:text-3xl font-medium text-white z-10">
           CURRENT REWARDS 2,000 $FFROG
         </p> */}
       </div>
@@ -172,10 +172,10 @@ export default function Home() {
           priority
           sizes="100vw"
         />
-        <p className="text-xl xl:text-[30px] font-medium text-white z-10">No Stakes Yet</p> */}
+        <p className="text-xl xl:text-3xl font-medium text-white z-10">No Stakes Yet</p> */}
 
         {/* TODO: FROG STAKED */}
-        {/* <p className="text-xl xl:text-[30px] font-medium text-white z-10">
+        {/* <p className="text-xl xl:text-3xl font-medium text-white z-10">
           500,000 $FFROG Staked
         </p> */}
       </div>
