@@ -11,6 +11,7 @@ import ground from "../../public/ground.webp";
 import leef from "../../public/leef.webp";
 import rock from "../../public/rock.webp";
 import mainText from "../../public/main-text.webp";
+import frog2 from "../../public/frog-2.webp";
 import poolText from "../../public/pool-text.webp";
 import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
@@ -162,10 +163,26 @@ export default function Home() {
             Connect Wallet
           </span>
         </button>
+
+        {/* TODO: NO STAKE STATE */}
+        {/* <Image
+          className="w-[130px] h-[142px] object-contain z-10"
+          src={frog2}
+          alt="background"
+          priority
+          sizes="100vw"
+        />
+        <p className="text-[30px] font-medium text-white z-10">No Stakes Yet</p> */}
+
+        {/* TODO: FROG STAKED */}
+        {/* <p className="text-[30px] font-medium text-white z-10">
+          500,000 $FFROG Staked
+        </p> */}
       </div>
 
       <div className="w-[344px] h-[219px] absolute left-0 top-[10%] flex items-center justify-center">
-        <Image
+        {/* TODO: NO STAKE STATE */}
+        {/* <Image
           className="object-contain"
           src={bush2}
           alt="background"
@@ -175,7 +192,12 @@ export default function Home() {
         />
         <p className="text-xl font-medium text-white mr-10 z-10">
           NO $FFROG REWARDED
-        </p>
+        </p> */}
+
+        {/* TODO: FROG STAKED */}
+        {/* <p className="text-[30px] font-medium text-white z-10">
+          CURRENT REWARDS 2,000 $FFROG
+        </p> */}
       </div>
 
       <Image
