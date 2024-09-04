@@ -214,7 +214,7 @@ export default function Home() {
           style={{
             backgroundColor: "transparent",
             color: "#005B0F",
-            // fontSize: "20px",
+            fontSize: "12px",
             fontWeight: "900",
           }}
         />
@@ -323,7 +323,7 @@ export default function Home() {
                     className="flex flex-row gap-2 items-start justify-center"
                   >
                     <p
-                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
                         WebkitTextStrokeColor: "#000",
@@ -332,7 +332,7 @@ export default function Home() {
                       {` Stake ${index + 1}:`}
                     </p>
                     <p
-                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
                         WebkitTextStrokeColor: "#000",
@@ -341,7 +341,7 @@ export default function Home() {
                       {`${bnToRegular(temp.amount)} $FFROG`}
                     </p>
                     <p
-                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
                         WebkitTextStrokeColor: "#000",
@@ -350,7 +350,7 @@ export default function Home() {
                       {`${bnToRegular(temp.apyAtStake, 2)}% APY`}
                     </p>
                     <p
-                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
                         WebkitTextStrokeColor: "#000",
@@ -359,7 +359,7 @@ export default function Home() {
                       {getFormattedDate(bnToRegular(temp.startTime, 0))}
                     </p>
                     <p
-                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
                         WebkitTextStrokeColor: "#000",
