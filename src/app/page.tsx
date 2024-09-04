@@ -365,7 +365,9 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      {getFormattedDate(bnToRegular(temp.unstakeTime, 0))}
+                      {temp.unstakeTime.cmp(new BN(0)) > 0
+                        ? getFormattedDate(bnToRegular(temp.unstakeTime, 0))
+                        : "-"}
                     </p>
                   </div>
                 ))}
