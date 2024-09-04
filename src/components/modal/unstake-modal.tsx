@@ -55,6 +55,7 @@ export default function UnstakeModal({
       setStakeFinished(true);
     }
   };
+
   return !stakeFinished ? (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
@@ -143,21 +144,21 @@ export default function UnstakeModal({
             UNSTAKE
           </span>
         </button>
+
+        <Image
+          className="w-[373px] h-[373px] hidden xl:block  absolute -left-10 -top-24"
+          src={branchLeft}
+          alt="background"
+          sizes="100vw"
+        />
+
+        <Image
+          className="w-[373px] h-[373px] hidden xl:block  absolute -right-16 -top-24"
+          src={branchRight}
+          alt="background"
+          sizes="100vw"
+        />
       </div>
-
-      <Image
-        className="w-[373px] h-[373px] hidden xl:block  absolute -left-10 -top-24"
-        src={branchLeft}
-        alt="background"
-        sizes="100vw"
-      />
-
-      <Image
-        className="w-[373px] h-[373px] hidden xl:block  absolute -right-16 -top-24"
-        src={branchRight}
-        alt="background"
-        sizes="100vw"
-      />
     </div>
   ) : (
     <Alert

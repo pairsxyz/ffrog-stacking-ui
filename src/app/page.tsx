@@ -190,6 +190,9 @@ export default function Home() {
         <WalletMultiButtonDynamic
           style={{
             backgroundColor: "transparent",
+            color: "#005B0F",
+            fontSize: "20px",
+            fontWeight: "900",
           }}
         />
       </div>
@@ -239,18 +242,26 @@ export default function Home() {
           backgroundSize: "cover",
         }}
       >
-        <p className="text-base xl:text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
-          MY STAKES & REWARDS:
-        </p>
         {!isConnected ? (
           <>
+            <p className="text-base xl:text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
+              MY STAKES & REWARDS:
+            </p>
             <p className="text-base xl:text-2xl font-medium text-white z-10">
               Connect Your Wallet
             </p>
             <WalletMultiButtonDynamic
               style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "192px",
+                height: "40px",
                 backgroundColor: "#3D3D3D",
                 borderRadius: "19px",
+                border: "1px solid black",
+                boxShadow: "2.409px 3.212px 3.212px 0px #000",
+                marginTop: "8px",
               }}
             />
           </>
@@ -262,13 +273,18 @@ export default function Home() {
                 {`${bnToRegular(userAccountInfo?.stakedAmount)} $FFROG Staked`}
               </p>
             ) : (
-              <Image
-                className="w-[86px] h-[94px] xl:w-[130px] xl:h-[142px] object-contain z-10"
-                src={frog2}
-                alt="background"
-                priority
-                sizes="100vw"
-              />
+              <>
+                <Image
+                  className="w-[86px] h-[94px] xl:w-[130px] xl:h-[142px] object-contain z-10"
+                  src={frog2}
+                  alt="background"
+                  priority
+                  sizes="100vw"
+                />
+                <p className="text-xl xl:text-[30px] font-medium text-white z-10">
+                  No Stakes Yet
+                </p>
+              </>
             )}
           </>
         )}

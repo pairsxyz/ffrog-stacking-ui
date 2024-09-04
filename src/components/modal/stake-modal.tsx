@@ -127,21 +127,21 @@ export default function StakeModal({
             STAKE
           </span>
         </button>
+
+        <Image
+          className="w-[373px] h-[373px] hidden xl:block absolute -left-10 -top-24"
+          src={branchLeft}
+          alt="background"
+          sizes="100vw"
+        />
+
+        <Image
+          className="w-[373px] h-[373px] hidden xl:block absolute -right-16 -top-24"
+          src={branchRight}
+          alt="background"
+          sizes="100vw"
+        />
       </div>
-
-      <Image
-        className="w-[373px] h-[373px] hidden xl:block absolute -left-10 -top-24"
-        src={branchLeft}
-        alt="background"
-        sizes="100vw"
-      />
-
-      <Image
-        className="w-[373px] h-[373px] hidden xl:block absolute -right-16 -top-24"
-        src={branchRight}
-        alt="background"
-        sizes="100vw"
-      />
     </div>
   ) : (
     <Alert
