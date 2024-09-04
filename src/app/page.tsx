@@ -109,6 +109,22 @@ export default function Home() {
     { ssr: false }
   );
 
+  const getFormattedDate = (timestampInSeconds: number) => {
+    const date = new Date(timestampInSeconds * 1000);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = String(date.getFullYear()).slice(-2); // Get the last two digits of the year
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Convert 0 to 12 for 12 AM/PM
+
+    return `${day}/${month}/${year}  ${hours}:${minutes} ${ampm}`;
+  };
+
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
       <Image
@@ -313,7 +329,7 @@ export default function Home() {
                     userAccountInfo?.stakedAmount
                   )} $FFROG Staked`}
                 </p>
-                {[0, 1, 2].map((temp, index) => (
+                {userAccountInfo?.stakes.map((temp, index) => (
                   <div
                     key={index}
                     className="flex flex-row gap-2 items-start justify-center"
@@ -325,7 +341,7 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      {` Stake${index + 1}:`}
+                      {` Stake ${index + 1}:`}
                     </p>
                     <p
                       className="text-xs xl:text-2xl font-medium text-white z-10"
@@ -334,7 +350,7 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      Amount
+                      {`${bnToRegular(temp.amount)} $FFROG`}
                     </p>
                     <p
                       className="text-xs xl:text-2xl font-medium text-white z-10"
@@ -343,7 +359,7 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      Apy
+                      {`${bnToRegular(temp.apyAtStake, 2)}% APY`}
                     </p>
                     <p
                       className="text-xs xl:text-2xl font-medium text-white z-10"
@@ -352,7 +368,7 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      Start time
+                      {getFormattedDate(bnToRegular(temp.startTime, 0))}
                     </p>
                     <p
                       className="text-xs xl:text-2xl font-medium text-white z-10"
@@ -361,7 +377,7 @@ export default function Home() {
                         WebkitTextStrokeColor: "#000",
                       }}
                     >
-                      End time
+                      {getFormattedDate(bnToRegular(temp.unstakeTime, 0))}
                     </p>
                   </div>
                 ))}
