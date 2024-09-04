@@ -11,6 +11,7 @@ import { WalletConnectWalletAdapter } from "@solana/wallet-adapter-walletconnect
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { SOLANA_NETWORK } from "@/anchor/setup";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 
 export const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTID;
 
@@ -31,6 +32,7 @@ export default function Web3ModalProvider({
 
   const wallets = useMemo(
     () => [
+      new PhantomWalletAdapter(),
       new WalletConnectWalletAdapter({
         network,
         options: {
