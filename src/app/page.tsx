@@ -215,23 +215,42 @@ export default function Home() {
       </button>
 
       <div className="w-[133px] h-[72px] xl:w-[344px] xl:h-[219px] absolute left-0 top-[22%] xl:top-[10%] flex items-center justify-center z-20">
-        {/* TODO: NO STAKE STATE */}
-        {/* <Image
-          className="w-[133px] h-[72px] object-contain"
-          src={bush2}
-          alt="background"
-          priority
-          sizes="100vw"
-          fill
-        />
-        <p className="text-xs xl:text-xl font-medium text-white ml-4 xl:ml-0 z-10">
-          NO $FFROG REWARDED
-        </p> */}
-
-        {/* TODO: FROG STAKED */}
-        {/* <p className="w-[80%] text-[8px] xl:text-3xl font-medium text-white z-10">
-          CURRENT REWARDS 2,000 $FFROG
-        </p> */}
+        {isConnected ? (
+          userAccountInfo?.stakedAmount &&
+          userAccountInfo.stakedAmount.cmp(new BN(0)) > 0 ? (
+            <p
+              className="w-[80%] text-[8px] xl:text-3xl font-medium text-white z-10"
+              style={{
+                WebkitTextStrokeWidth: "1px",
+                WebkitTextStrokeColor: "#000",
+              }}
+            >
+              {`CURRENT REWARDS ${bnToRegular(
+                userAccountInfo?.stakedAmount
+              )} $FFROG`}
+            </p>
+          ) : (
+            <>
+              <Image
+                className="w-[133px] h-[72px] object-contain"
+                src={bush2}
+                alt="background"
+                priority
+                sizes="100vw"
+                fill
+              />
+              <p
+                className="text-xs xl:text-xl font-medium text-white ml-4 xl:ml-0 z-10"
+                style={{
+                  WebkitTextStrokeWidth: "1px",
+                  WebkitTextStrokeColor: "#000",
+                }}
+              >
+                NO $FFROG REWARDED
+              </p>
+            </>
+          )
+        ) : null}
       </div>
 
       <div
