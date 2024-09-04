@@ -323,7 +323,10 @@ export default function Home() {
       ) : null}
 
       {unstakeModalIsOpen ? (
-        <UnstakeModal handleCloseModal={() => setUnstakeModalIsOpen(false)} />
+        <UnstakeModal
+          userAccountData={userAccountInfo as UserAccountData}
+          handleCloseModal={() => setUnstakeModalIsOpen(false)}
+        />
       ) : null}
     </main>
   );

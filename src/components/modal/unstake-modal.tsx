@@ -1,43 +1,26 @@
 import Image from "next/image";
 import branchLeft from "../../../public/branch-left.webp";
 import branchRight from "../../../public/branch-right.webp";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
-import {
-  bnToRegular,
-  getUserAccountInfo,
-  unstakeAll,
-  UserAccountData,
-} from "@/anchor/setup";
+import { bnToRegular, unstakeAll, UserAccountData } from "@/anchor/setup";
 import Alert from "../alert/alert";
 
 export default function UnstakeModal({
+  userAccountData,
   handleCloseModal,
 }: {
+  userAccountData: UserAccountData | null;
   handleCloseModal: () => void;
 }) {
   const [inputValue, setInputValue] = useState("0");
   const [pending, setPending] = useState(false);
   const [stakeFinished, setStakeFinished] = useState(false);
   const [stakeSuccess, setStakeSuccess] = useState(false);
-  const [userAccountInfo, setUserAccountInfo] =
-    useState<UserAccountData | null>();
 
   const wallet = useWallet();
   const { program } = useProgram();
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await getUserAccountInfo(program!, wallet);
-        console.log(data);
-        setUserAccountInfo(data);
-      } catch (e) {}
-    };
-
-    loadData();
-  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -45,8 +28,8 @@ export default function UnstakeModal({
 
   const handleMaxClick = () => {
     setInputValue(
-      userAccountInfo?.stakedAmount
-        ? bnToRegular(userAccountInfo.stakedAmount).toString()
+      userAccountData?.stakedAmount
+        ? bnToRegular(userAccountData.stakedAmount).toString()
         : "0"
     );
   };
@@ -118,8 +101,8 @@ export default function UnstakeModal({
               type="number"
               //value={inputValue}
               value={
-                userAccountInfo?.stakedAmount
-                  ? bnToRegular(userAccountInfo.stakedAmount).toString()
+                userAccountData?.stakedAmount
+                  ? bnToRegular(userAccountData.stakedAmount).toString()
                   : "0"
               }
               onChange={handleInputChange}
@@ -145,8 +128,8 @@ export default function UnstakeModal({
             }}
           >
             FFROG Staked:{" "}
-            {userAccountInfo?.stakedAmount
-              ? bnToRegular(userAccountInfo.stakedAmount)
+            {userAccountData?.stakedAmount
+              ? bnToRegular(userAccountData.stakedAmount)
               : 0}
           </p>
         </div>
