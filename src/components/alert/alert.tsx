@@ -3,11 +3,21 @@ import bush1 from "../../../public/bush-1.webp";
 import success from "../../../public/success.webp";
 import fail from "../../../public/fail.webp";
 
-export default function Alert({ type }: { type: "SUCCESS" | "FAIL" }) {
+export default function Alert({
+  type,
+  mode,
+  handleCloseModal,
+  handleButtonClick,
+}: {
+  type: "SUCCESS" | "FAIL";
+  mode: "STAKE" | "UNSTAKE" | "WITHDRAW";
+  handleCloseModal: () => void;
+  handleButtonClick: () => void;
+}) {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-      //   onClick={handleCloseModal}
+      onClick={handleCloseModal}
     >
       <div
         className="w-[1028px] h-[618px] flex flex-col items-center justify-center relative z-20"
@@ -29,10 +39,13 @@ export default function Alert({ type }: { type: "SUCCESS" | "FAIL" }) {
               WebkitTextStrokeColor: "#000",
             }}
           >
-            STAKING SUCCESSFUL
+            {type === "SUCCESS" ? `${mode} SUCCESSFUL` : `${mode} FAILED`}
           </p>
 
-          <button className="w-fit px-4 rounded-[30px] border-2 border-black bg-[#0C4800]">
+          <button
+            className="w-fit px-4 rounded-[30px] border-2 border-black bg-[#0C4800]"
+            onClick={handleButtonClick}
+          >
             <span className="text-[33px] font-medium text-[#F5F5F5] uppercase">
               {type === "SUCCESS" ? "ok" : "try again"}
             </span>

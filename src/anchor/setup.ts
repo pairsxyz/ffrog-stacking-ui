@@ -233,3 +233,11 @@ export async function getUserAccountInfo(
 
   return userAccountData;
 }
+
+export const bnToRegular = (bnValue: BN) => {
+  const divisor = new BN(10).pow(new BN(TOKEN_DECIMALS));
+  return (
+    bnValue.div(divisor).toNumber() +
+    bnValue.mod(divisor).toNumber() / divisor.toNumber()
+  );
+};

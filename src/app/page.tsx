@@ -16,7 +16,11 @@ import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
 import { getFrogTokenBalance, initializeMoralis } from "@/lib/moralis";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useProgram } from "@/providers/ProgramProvider";
+import { PublicKey } from "@solana/web3.js";
+import { bnToRegular, UserAccountData } from "@/anchor/setup";
+import { BN } from "@coral-xyz/anchor";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
@@ -26,10 +30,43 @@ export default function Home() {
   const [frogBalance, setFrogBalance] = useState("0");
 
   const { publicKey: address, connected: isConnected } = useWallet();
+  const { program } = useProgram();
+  const { connection } = useConnection();
+
+  const [userAccountInfo, setUserAccountInfo] =
+    useState<UserAccountData | null>();
 
   useEffect(() => {
     initializeMoralis();
   }, []);
+
+  useEffect(() => {
+    if (address) {
+      const [userAccountPDA, userAccountBump] =
+        PublicKey.findProgramAddressSync(
+          [address!.toBuffer(), Buffer.from("user")],
+          program!.programId
+        );
+      program?.account.userAccount
+        .fetch(userAccountPDA)
+        .then((data) => setUserAccountInfo(data));
+
+      const subscriptionId = connection.onAccountChange(
+        userAccountPDA,
+        (accountInfo) => {
+          setUserAccountInfo(
+            program?.coder.accounts.decode("userAccount", accountInfo.data)
+          );
+        }
+      );
+
+      return () => {
+        connection.removeAccountChangeListener(subscriptionId);
+      };
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [program, address]);
 
   const handleOpenStakeModalButtonClick = async () => {
     setStakeModalIsOpen(true);
@@ -118,10 +155,6 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        {/* <p className="text-base xl:text-xl font-medium text-[#005B0F] z-10">
-          CONNECT
-          <br /> WALLET
-        </p> */}
         <WalletMultiButton
           style={{
             backgroundColor: "transparent",
@@ -175,7 +208,7 @@ export default function Home() {
         }}
       >
         <p className="text-base xl:text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
-          MY STAKES & REWARDS
+          MY STAKES & REWARDS:
         </p>
         {!isConnected ? (
           <>
@@ -191,20 +224,20 @@ export default function Home() {
           </>
         ) : (
           <>
-            {/* TODO: NO STAKE STATE */}
-            {/* <Image
-          className="w-[86px] h-[94px] xl:w-[130px] xl:h-[142px] object-contain z-10"
-          src={frog2}
-          alt="background"
-          priority
-          sizes="100vw"
-        />
-        <p className="text-xl xl:text-3xl font-medium text-white z-10">No Stakes Yet</p> */}
-
-            {/* TODO: FROG STAKED */}
-            {/* <p className="text-xl xl:text-3xl font-medium text-white z-10">
-          500,000 $FFROG Staked
-        </p> */}
+            {userAccountInfo?.stakedAmount &&
+            userAccountInfo.stakedAmount.cmp(new BN(0)) > 0 ? (
+              <p className="text-xl xl:text-3xl font-medium text-white z-10">
+                {`${bnToRegular(userAccountInfo?.stakedAmount)} $FFROG Staked`}
+              </p>
+            ) : (
+              <Image
+                className="w-[86px] h-[94px] xl:w-[130px] xl:h-[142px] object-contain z-10"
+                src={frog2}
+                alt="background"
+                priority
+                sizes="100vw"
+              />
+            )}
           </>
         )}
       </div>

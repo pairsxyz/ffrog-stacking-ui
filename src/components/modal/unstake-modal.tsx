@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import {
+  bnToRegular,
   getUserAccountInfo,
-  TOKEN_DECIMALS,
   unstakeAll,
   UserAccountData,
 } from "@/anchor/setup";
-import { BN } from "@coral-xyz/anchor";
+import Alert from "../alert/alert";
 
 export default function UnstakeModal({
   handleCloseModal,
@@ -19,6 +19,8 @@ export default function UnstakeModal({
 }) {
   const [inputValue, setInputValue] = useState("0");
   const [pending, setPending] = useState(false);
+  const [stakeFinished, setStakeFinished] = useState(false);
+  const [stakeSuccess, setStakeSuccess] = useState(false);
   const [userAccountInfo, setUserAccountInfo] =
     useState<UserAccountData | null>();
 
@@ -36,14 +38,6 @@ export default function UnstakeModal({
 
     loadData();
   }, []);
-
-  const bnToRegular = (bnValue: BN) => {
-    const divisor = new BN(10).pow(new BN(TOKEN_DECIMALS));
-    return (
-      bnValue.div(divisor).toNumber() +
-      bnValue.mod(divisor).toNumber() / divisor.toNumber()
-    );
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -69,13 +63,16 @@ export default function UnstakeModal({
     try {
       setPending(true);
       await unstakeAll(program, wallet);
+      setStakeSuccess(true);
     } catch (e) {
       console.log("ERROR: ", e);
+      setStakeSuccess(false);
     } finally {
       setPending(false);
+      setStakeFinished(true);
     }
   };
-  return (
+  return !stakeFinished ? (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
       onClick={handleCloseModal}
@@ -179,5 +176,12 @@ export default function UnstakeModal({
         sizes="100vw"
       />
     </div>
+  ) : (
+    <Alert
+      type={`${stakeSuccess ? "SUCCESS" : "FAIL"}`}
+      mode="UNSTAKE"
+      handleCloseModal={() => setStakeFinished(false)}
+      handleButtonClick={() => setStakeFinished(false)}
+    />
   );
 }

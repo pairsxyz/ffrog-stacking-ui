@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import { stakeTokens } from "@/anchor/setup";
+import Alert from "../alert/alert";
 
 export default function StakeModal({
   balance,
@@ -16,6 +17,8 @@ export default function StakeModal({
 }) {
   const [inputValue, setInputValue] = useState("0");
   const [pending, setPending] = useState(false);
+  const [stakeFinished, setStakeFinished] = useState(false);
+  const [stakeSuccess, setStakeSuccess] = useState(false);
 
   const wallet = useWallet();
   const { program } = useProgram();
@@ -40,14 +43,17 @@ export default function StakeModal({
     try {
       setPending(true);
       await stakeTokens(program, wallet, inputValue);
+      setStakeSuccess(true);
     } catch (e) {
       console.log("ERROR: ", e);
+      setStakeSuccess(false);
     } finally {
       setPending(false);
+      setStakeFinished(true);
     }
   };
 
-  return (
+  return !stakeFinished ? (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
       onClick={handleCloseModal}
@@ -135,5 +141,12 @@ export default function StakeModal({
         sizes="100vw"
       />
     </div>
+  ) : (
+    <Alert
+      type={`${stakeSuccess ? "SUCCESS" : "FAIL"}`}
+      mode="STAKE"
+      handleCloseModal={() => setStakeFinished(false)}
+      handleButtonClick={() => setStakeFinished(false)}
+    />
   );
 }
