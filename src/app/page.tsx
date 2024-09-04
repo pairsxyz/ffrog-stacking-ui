@@ -157,7 +157,7 @@ export default function Home() {
         />
         <p className="text-base xl:text-xl font-medium text-black z-10">
           {globalStateInfo?.currentApy
-            ? `${bnToRegular(globalStateInfo?.currentApy!)}% APY`
+            ? `${bnToRegular(globalStateInfo?.currentApy!, 2)}% APY`
             : ``}
         </p>
         <p className="text-base font-medium text-black z-10">
@@ -315,7 +315,7 @@ export default function Home() {
           balance={frogBalance}
           apy={
             globalStateInfo?.currentApy
-              ? bnToRegular(globalStateInfo.currentApy)
+              ? bnToRegular(globalStateInfo.currentApy, 2)
               : 0
           }
           handleCloseModal={() => setStakeModalIsOpen(false)}

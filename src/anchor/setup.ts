@@ -26,18 +26,18 @@ if (!endpoint) {
 }
 
 export const PROGRAM_ID = new PublicKey(
-  "Hu3gmswYzArqJPEjPUgKtdiSykPNZP2wsmFH1gxujrrK"
+  "DuAzjcYARK1AwEeqhG7AETHSdDcB1upYkCe8b5diDeQT"
 );
 export const TOKEN_MINT = new PublicKey(
-  "E7Q4Aghgx5xx2sgGXkDYhPLkAMkTie7B79apccsgX31X"
+  "9nJVEmiNFqLkueCGTsYtqAgx6v7wvckQEH5jzhBopump"
 );
 export const USER_POOL_VAULT_ADDRESS = new PublicKey(
-  `12WvzhjKfk6gPyxqtWDMChVKkWUKNd58MvCpuhMomNua`
+  `CwtCpW1ysWRFowcpzfp3db1yofrmzeBGXuLX57yNL51Q`
 );
 
-export const SOLANA_NETWORK = WalletAdapterNetwork.Devnet;
+export const SOLANA_NETWORK = WalletAdapterNetwork.Mainnet;
 export const CONNECTION = new Connection(endpoint, "confirmed");
-export const TOKEN_DECIMALS = 9;
+export const TOKEN_DECIMALS = 6;
 
 export type UserAccountData = IdlAccounts<StakingContract>["userAccount"];
 export type GlobalStateData =
@@ -236,8 +236,8 @@ export async function getUserAccountInfo(
   return userAccountData;
 }
 
-export const bnToRegular = (bnValue: BN) => {
-  const divisor = new BN(10).pow(new BN(TOKEN_DECIMALS));
+export const bnToRegular = (bnValue: BN, decimals: number = TOKEN_DECIMALS) => {
+  const divisor = new BN(10).pow(new BN(decimals));
   return (
     bnValue.div(divisor).toNumber() +
     bnValue.mod(divisor).toNumber() / divisor.toNumber()
