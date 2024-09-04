@@ -197,6 +197,25 @@ export default function Home() {
         />
       </div>
 
+      <div className="w-[160px] h-[88px] absolute left-0 top-[20%] xl:top-[10%] flex xl:hidden items-center justify-center z-20">
+        <Image
+          className="w-[160px] h-[88px] object-contain"
+          src={bush2}
+          alt="background"
+          priority
+          sizes="100vw"
+          fill
+        />
+        <WalletMultiButtonDynamic
+          style={{
+            backgroundColor: "transparent",
+            color: "#005B0F",
+            fontSize: "16px",
+            fontWeight: "900",
+          }}
+        />
+      </div>
+
       <button
         className="w-[150px] h-[96px] xl:w-[250px] xl:h-[159px] absolute right-0 md:right-20 top-[20%] xl:top-[30%] flex items-center justify-center z-20 xl:z-0"
         onClick={() => setUnstakeModalIsOpen(true)}
@@ -214,7 +233,7 @@ export default function Home() {
         </p>
       </button>
 
-      <div className="w-[133px] h-[72px] xl:w-[344px] xl:h-[219px] absolute left-0 top-[22%] xl:top-[10%] flex items-center justify-center z-20">
+      {/* <div className="w-[133px] h-[72px] xl:w-[344px] xl:h-[219px] absolute left-0 top-[22%] xl:top-[10%] flex items-center justify-center z-20">
         {isConnected ? (
           userAccountInfo?.stakedAmount &&
           userAccountInfo.stakedAmount.cmp(new BN(0)) > 0 ? (
@@ -251,7 +270,7 @@ export default function Home() {
             </>
           )
         ) : null}
-      </div>
+      </div> */}
 
       <div
         className="w-[777px] h-[212px] xl:w-[1019px] xl:h-[279px] flex flex-col items-center justify-center 4xl:translate-y-[180%]"
@@ -288,9 +307,65 @@ export default function Home() {
           <>
             {userAccountInfo?.stakedAmount &&
             userAccountInfo.stakedAmount.cmp(new BN(0)) > 0 ? (
-              <p className="text-xl xl:text-3xl font-medium text-white z-10">
-                {`${bnToRegular(userAccountInfo?.stakedAmount)} $FFROG Staked`}
-              </p>
+              <>
+                <p className="text-xl xl:text-3xl font-medium text-white z-10">
+                  {`${bnToRegular(
+                    userAccountInfo?.stakedAmount
+                  )} $FFROG Staked`}
+                </p>
+                {[0, 1, 2].map((temp, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row gap-2 items-start justify-center"
+                  >
+                    <p
+                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      style={{
+                        WebkitTextStrokeWidth: "1px",
+                        WebkitTextStrokeColor: "#000",
+                      }}
+                    >
+                      {` Stake${index + 1}:`}
+                    </p>
+                    <p
+                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      style={{
+                        WebkitTextStrokeWidth: "1px",
+                        WebkitTextStrokeColor: "#000",
+                      }}
+                    >
+                      Amount
+                    </p>
+                    <p
+                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      style={{
+                        WebkitTextStrokeWidth: "1px",
+                        WebkitTextStrokeColor: "#000",
+                      }}
+                    >
+                      Apy
+                    </p>
+                    <p
+                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      style={{
+                        WebkitTextStrokeWidth: "1px",
+                        WebkitTextStrokeColor: "#000",
+                      }}
+                    >
+                      Start time
+                    </p>
+                    <p
+                      className="text-xs xl:text-2xl font-medium text-white z-10"
+                      style={{
+                        WebkitTextStrokeWidth: "1px",
+                        WebkitTextStrokeColor: "#000",
+                      }}
+                    >
+                      End time
+                    </p>
+                  </div>
+                ))}
+              </>
             ) : (
               <>
                 <Image
