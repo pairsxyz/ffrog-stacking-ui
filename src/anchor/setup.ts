@@ -193,7 +193,17 @@ export async function stakeTokens(
     program.provider.connection
   );
 
-  console.log("STAKE SUCCESS:", signature);
+  // Confirm the transaction
+  const { value } = await program.provider.connection.confirmTransaction(
+    signature
+  );
+
+  if (value.err) {
+    console.error("STAKE FAILED:", value.err);
+    throw value.err;
+  } else {
+    console.log("STAKE SUCCESS:", signature);
+  }
 }
 
 export async function unstakeAll(
@@ -217,7 +227,17 @@ export async function unstakeAll(
     program.provider.connection
   );
 
-  console.log("UNSTAKE ALL SUCCESS:", signature);
+  // Confirm the transaction
+  const { value } = await program.provider.connection.confirmTransaction(
+    signature
+  );
+
+  if (value.err) {
+    console.error("UNSTAKE FAILED:", value.err);
+    throw value.err;
+  } else {
+    console.log("UNSTAKE SUCCESS:", signature);
+  }
 }
 
 export async function getUserAccountInfo(
