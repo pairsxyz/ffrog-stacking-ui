@@ -15,12 +15,12 @@ import ConnectWalletModal from "@/components/modal/connect-wallet-modal";
 import StakeModal from "@/components/modal/stake-modal";
 import UnstakeModal from "@/components/modal/unstake-modal";
 import { getFrogTokenBalance, initializeMoralis } from "@/lib/moralis";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import { PublicKey } from "@solana/web3.js";
 import { bnToRegular, UserAccountData } from "@/anchor/setup";
 import { BN } from "@coral-xyz/anchor";
+import dynamic from "next/dynamic";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
@@ -78,6 +78,12 @@ export default function Home() {
       setFrogBalance("0");
     }
   };
+
+  const WalletMultiButtonDynamic = dynamic(
+    async () =>
+      (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+    { ssr: false }
+  );
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
@@ -143,7 +149,7 @@ export default function Home() {
         </button>
       </div>
 
-      <button
+      <div
         className="w-[200px] xl:w-[278px] h-[129px] hidden xl:flex items-center justify-center absolute right-20 top-0"
         //onClick={() => setConnectWalletModalIsOpen(true)}
       >
@@ -155,12 +161,12 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <WalletMultiButton
+        <WalletMultiButtonDynamic
           style={{
             backgroundColor: "transparent",
           }}
         />
-      </button>
+      </div>
 
       <button
         className="w-[150px] h-[96px] xl:w-[250px] xl:h-[159px] absolute right-0 md:right-20 top-[20%] xl:top-[30%] flex items-center justify-center z-20 xl:z-0"
@@ -215,7 +221,7 @@ export default function Home() {
             <p className="text-base xl:text-2xl font-medium text-white z-10">
               Connect Your Wallet
             </p>
-            <WalletMultiButton
+            <WalletMultiButtonDynamic
               style={{
                 backgroundColor: "#3D3D3D",
                 borderRadius: "19px",
