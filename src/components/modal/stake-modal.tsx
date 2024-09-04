@@ -119,7 +119,7 @@ export default function StakeModal({
         <button
           className="w-2/3 h-1/3 xl:w-[332px] xl:h-[69px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
           onClick={handleStakeClick}
-          disabled={pending}
+          disabled={pending || !wallet.publicKey}
         >
           <span className="text-base xl:text-[45px] font-medium text-black">
             STAKE

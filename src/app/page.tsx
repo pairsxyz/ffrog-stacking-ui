@@ -41,7 +41,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (address) {
+    if (address && program) {
       const [userAccountPDA, userAccountBump] =
         PublicKey.findProgramAddressSync(
           [address!.toBuffer(), Buffer.from("user")],
