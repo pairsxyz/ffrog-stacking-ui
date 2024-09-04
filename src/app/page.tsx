@@ -340,7 +340,7 @@ export default function Home() {
                     >
                       {`${bnToRegular(temp.amount)} $FFROG`}
                     </p>
-                    <p
+                    {/* <p
                       className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
@@ -348,7 +348,7 @@ export default function Home() {
                       }}
                     >
                       {`${bnToRegular(temp.apyAtStake, 2)}% APY`}
-                    </p>
+                    </p> */}
                     <p
                       className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
@@ -358,7 +358,7 @@ export default function Home() {
                     >
                       {getFormattedDate(bnToRegular(temp.startTime, 0))}
                     </p>
-                    <p
+                    {/* <p
                       className="text-xs xl:text-xl font-medium text-white z-10"
                       style={{
                         WebkitTextStrokeWidth: "1px",
@@ -368,7 +368,7 @@ export default function Home() {
                       {temp.unstakeTime.cmp(new BN(0)) > 0
                         ? getFormattedDate(bnToRegular(temp.unstakeTime, 0))
                         : "-"}
-                    </p>
+                    </p> */}
                   </div>
                 ))}
               </>
