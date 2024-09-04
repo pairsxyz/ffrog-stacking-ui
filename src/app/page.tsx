@@ -49,7 +49,8 @@ export default function Home() {
         );
       program?.account.userAccount
         .fetch(userAccountPDA)
-        .then((data) => setUserAccountInfo(data));
+        .then((data) => setUserAccountInfo(data))
+        .catch((e) => console.log(`ERROR FETCHING ACCOUNT DATA: `, e));
 
       const subscriptionId = connection.onAccountChange(
         userAccountPDA,
