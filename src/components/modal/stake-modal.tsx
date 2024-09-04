@@ -10,9 +10,11 @@ import Alert from "../alert/alert";
 
 export default function StakeModal({
   balance,
+  apy,
   handleCloseModal,
 }: {
   balance: string;
+  apy: number | undefined;
   handleCloseModal: () => void;
 }) {
   const [inputValue, setInputValue] = useState("0");
@@ -80,7 +82,7 @@ export default function StakeModal({
                 WebkitTextStrokeColor: "#000",
               }}
             >
-              18% APY
+              {apy}% APY
             </p>
           </div>
         </div>

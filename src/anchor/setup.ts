@@ -40,6 +40,8 @@ export const CONNECTION = new Connection(endpoint, "confirmed");
 export const TOKEN_DECIMALS = 9;
 
 export type UserAccountData = IdlAccounts<StakingContract>["userAccount"];
+export type GlobalStateData =
+  IdlAccounts<StakingContract>["globalStateAccount"];
 
 export function initializeProgram(wallet: AnchorWallet | undefined) {
   if (!wallet) {

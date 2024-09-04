@@ -18,7 +18,7 @@ import { getFrogTokenBalance, initializeMoralis } from "@/lib/moralis";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import { PublicKey } from "@solana/web3.js";
-import { bnToRegular, UserAccountData } from "@/anchor/setup";
+import { bnToRegular, GlobalStateData, UserAccountData } from "@/anchor/setup";
 import { BN } from "@coral-xyz/anchor";
 import dynamic from "next/dynamic";
 
@@ -35,6 +35,8 @@ export default function Home() {
 
   const [userAccountInfo, setUserAccountInfo] =
     useState<UserAccountData | null>();
+  const [globalStateInfo, setGlobalStateInfo] =
+    useState<GlobalStateData | null>();
 
   useEffect(() => {
     initializeMoralis();
@@ -47,12 +49,21 @@ export default function Home() {
           [address!.toBuffer(), Buffer.from("user")],
           program!.programId
         );
-      program?.account.userAccount
+      const [programStateAccount, bump] = PublicKey.findProgramAddressSync(
+        [Buffer.from("ny_state_of_mind")],
+        program.programId
+      );
+
+      program.account.userAccount
         .fetch(userAccountPDA)
         .then((data) => setUserAccountInfo(data))
         .catch((e) => console.log(`ERROR FETCHING ACCOUNT DATA: `, e));
+      program.account.globalStateAccount
+        .fetch(programStateAccount)
+        .then((data) => setGlobalStateInfo(data))
+        .catch((e) => console.log(`ERROR FETCHING GLOBAL STATE DATA: `, e));
 
-      const subscriptionId = connection.onAccountChange(
+      const userAccountSubscriptionId = connection.onAccountChange(
         userAccountPDA,
         (accountInfo) => {
           setUserAccountInfo(
@@ -60,9 +71,21 @@ export default function Home() {
           );
         }
       );
+      const globalStateSubscriptionId = connection.onAccountChange(
+        programStateAccount,
+        (globalState) => {
+          setGlobalStateInfo(
+            program?.coder.accounts.decode(
+              "globalStateAccount",
+              globalState.data
+            )
+          );
+        }
+      );
 
       return () => {
-        connection.removeAccountChangeListener(subscriptionId);
+        connection.removeAccountChangeListener(userAccountSubscriptionId);
+        connection.removeAccountChangeListener(globalStateSubscriptionId);
       };
     }
 
@@ -133,7 +156,9 @@ export default function Home() {
           sizes="100vw"
         />
         <p className="text-base xl:text-xl font-medium text-black z-10">
-          18% APY
+          {globalStateInfo?.currentApy
+            ? `${bnToRegular(globalStateInfo?.currentApy!)}% APY`
+            : ``}
         </p>
         <p className="text-base font-medium text-black z-10">
           Unlock Period of 7 days
@@ -288,6 +313,11 @@ export default function Home() {
       {stakeModalIsOpen ? (
         <StakeModal
           balance={frogBalance}
+          apy={
+            globalStateInfo?.currentApy
+              ? bnToRegular(globalStateInfo.currentApy)
+              : 0
+          }
           handleCloseModal={() => setStakeModalIsOpen(false)}
         />
       ) : null}
