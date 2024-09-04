@@ -183,16 +183,23 @@ export default function Home() {
           Once you unstake, a timer of 7 days will begin
         </p>
         <button
-          className="w-[167px] h-[35px] translate-y-16 sm:translate-y-10 xl:translate-y-0 rounded-[19px] border border-black z-10 bg-[#005B0F]"
+          className="w-[167px] h-[35px] flex items-center justify-center translate-y-10 sm:translate-y-8 xl:translate-y-0 rounded-[19px] border border-black z-10 bg-[#005B0F]"
           style={{ boxShadow: "2.096px 2.795px 2.795px 0px #000" }}
           onClick={handleOpenStakeModalButtonClick}
         >
           <span className="text-[25px] font-normal text-white">STAKE</span>
         </button>
+        <button
+          className="w-[167px] h-[35px] flex xl:hidden items-center justify-center translate-y-12 sm:translate-y-10 rounded-[19px] border border-black z-10 bg-[#005B0F]"
+          style={{ boxShadow: "2.096px 2.795px 2.795px 0px #000" }}
+          onClick={() => setUnstakeModalIsOpen(true)}
+        >
+          <span className="text-[23px] font-normal text-white">UNSTAKE</span>
+        </button>
       </div>
 
       <div
-        className="w-[200px] xl:w-[278px] h-[129px] hidden xl:flex items-center justify-center absolute right-20 top-0"
+        className="w-[162px] h-[86px] xl:w-[278px] xl:h-[129px] flex items-center justify-center absolute right-0 xl:right-20 top-[20%] xl:top-0"
         //onClick={() => setConnectWalletModalIsOpen(true)}
       >
         <Image
@@ -207,33 +214,14 @@ export default function Home() {
           style={{
             backgroundColor: "transparent",
             color: "#005B0F",
-            fontSize: "20px",
-            fontWeight: "900",
-          }}
-        />
-      </div>
-
-      <div className="w-[160px] h-[88px] absolute left-0 top-[20%] xl:top-[10%] flex xl:hidden items-center justify-center z-20">
-        <Image
-          className="w-[160px] h-[88px] object-contain"
-          src={bush2}
-          alt="background"
-          priority
-          sizes="100vw"
-          fill
-        />
-        <WalletMultiButtonDynamic
-          style={{
-            backgroundColor: "transparent",
-            color: "#005B0F",
-            fontSize: "16px",
+            // fontSize: "20px",
             fontWeight: "900",
           }}
         />
       </div>
 
       <button
-        className="w-[150px] h-[96px] xl:w-[250px] xl:h-[159px] absolute right-0 md:right-20 top-[20%] xl:top-[30%] flex items-center justify-center z-20 xl:z-0"
+        className="w-[250px] h-[159px] absolute right-20 top-[30%] hidden xl:flex items-center justify-center"
         onClick={() => setUnstakeModalIsOpen(true)}
       >
         <Image
@@ -244,12 +232,12 @@ export default function Home() {
           sizes="100vw"
           fill
         />
-        <p className="text-xs xl:text-xl font-medium text-[#005B0F] mt-[10%] z-10">
+        <p className="text-xl font-medium text-[#005B0F] mt-[10%] z-10">
           UNSTAKE
         </p>
       </button>
 
-      {/* <div className="w-[133px] h-[72px] xl:w-[344px] xl:h-[219px] absolute left-0 top-[22%] xl:top-[10%] flex items-center justify-center z-20">
+      <div className="w-[133px] h-[72px] xl:w-[344px] xl:h-[219px] absolute left-0 top-[22%] xl:top-[10%] flex items-center justify-center z-20">
         {isConnected ? (
           userAccountInfo?.stakedAmount &&
           userAccountInfo.stakedAmount.cmp(new BN(0)) > 0 ? (
@@ -286,7 +274,7 @@ export default function Home() {
             </>
           )
         ) : null}
-      </div> */}
+      </div>
 
       <div
         className="w-[777px] h-[212px] xl:w-[1019px] xl:h-[279px] flex flex-col items-center justify-center 4xl:translate-y-[180%]"
