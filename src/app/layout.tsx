@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { cooper } from "@/styles/fonts";
 import "../styles/globals.css";
 import { Web3ModalProvider, ProgramProvider } from "@/providers";
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body className={cooper.className}>
         <Web3ModalProvider>
           <ProgramProvider>{children}</ProgramProvider>
+          <Analytics />
         </Web3ModalProvider>
       </body>
     </html>
