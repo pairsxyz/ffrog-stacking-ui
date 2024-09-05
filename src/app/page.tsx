@@ -21,6 +21,7 @@ import { PublicKey } from "@solana/web3.js";
 import { bnToRegular, GlobalStateData, UserAccountData } from "@/anchor/setup";
 import { BN } from "@coral-xyz/anchor";
 import dynamic from "next/dynamic";
+import { cooper } from "@/styles/fonts";
 
 export default function Home() {
   const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
@@ -213,11 +214,29 @@ export default function Home() {
         <WalletMultiButtonDynamic
           style={{
             backgroundColor: "transparent",
-            color: "#005B0F",
-            fontSize: "12px",
-            fontWeight: "900",
           }}
-        />
+        >
+          {!isConnected ? (
+            <p
+              className={`text-xs xl:text-xl font-medium text-[#005B0F] z-10 ${cooper.className}`}
+            >
+              CONNECT
+              <br /> WALLET
+            </p>
+          ) : (
+            <p
+              className={`text-[8px] xl:text-xl font-medium text-[#3EC800] z-10 ${cooper.className}`}
+              style={{
+                WebkitTextStrokeWidth: "1px",
+                WebkitTextStrokeColor: "#005B0F",
+              }}
+            >
+              {`${address?.toString().slice(0, 4)}...${address
+                ?.toString()
+                .slice(-4)}` ?? "Address"}
+            </p>
+          )}
+        </WalletMultiButtonDynamic>
       </div>
 
       <button
@@ -297,7 +316,7 @@ export default function Home() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "192px",
+                // width: "192px",
                 height: "40px",
                 backgroundColor: "#3D3D3D",
                 borderRadius: "19px",
@@ -305,7 +324,13 @@ export default function Home() {
                 boxShadow: "2.409px 3.212px 3.212px 0px #000",
                 marginTop: "8px",
               }}
-            />
+            >
+              <p
+                className={`text-base xl:text-[20px] font-medium text-white ${cooper.className}`}
+              >
+                Connect Wallet
+              </p>
+            </WalletMultiButtonDynamic>
           </>
         ) : (
           <>
