@@ -126,6 +126,32 @@ export default function Home() {
     return `${day}/${month}/${year}  ${hours}:${minutes} ${ampm}`;
   };
 
+  const getCurrentRewards = () => {
+    let totalRewards = 0;
+
+    userAccountInfo?.stakes.forEach((stake) => {
+      const start = bnToRegular(stake.startTime, 0) * 1000;
+      const end =
+        stake.unstakeTime.cmp(new BN(0)) > 0
+          ? bnToRegular(stake.unstakeTime, 0) * 1000
+          : Date.now();
+
+      const amount = bnToRegular(stake.amount);
+      const apy = bnToRegular(stake.apyAtStake, 2);
+
+      const diff = end - start;
+
+      const millisecondsInOneDay = 1000 * 60 * 60 * 24;
+      const differenceInDays = Math.floor(diff / millisecondsInOneDay);
+
+      const reward = amount * (apy / 100) * (differenceInDays / 365);
+
+      totalRewards += reward;
+    });
+
+    return totalRewards.toFixed(2);
+  };
+
   return (
     <main className="w-full min-h-screen flex flex-col items-center relative overflow-hidden">
       <Image
@@ -276,9 +302,7 @@ export default function Home() {
                   WebkitTextStrokeColor: "#000",
                 }}
               >
-                {`CURRENT REWARDS ${bnToRegular(
-                  userAccountInfo?.stakedAmount
-                )} $FFROG`}
+                {`CURRENT REWARDS: ${getCurrentRewards()} $FFROG`}
               </p>
             </>
           ) : (
