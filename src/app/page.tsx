@@ -28,6 +28,8 @@ export default function Home() {
     useState(false);
   const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
+  const [pendingUnstake, setPendingUnstake] = useState(false);
+  const [freezeEndDate, setFreezeEndDate] = useState<number | undefined>();
   const [frogBalance, setFrogBalance] = useState("0");
 
   const { publicKey: address, connected: isConnected } = useWallet();
@@ -92,6 +94,39 @@ export default function Home() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [program, address]);
+
+  useEffect(() => {
+    if (userAccountInfo && globalStateInfo) {
+      const freezeDurationInMs =
+        bnToRegular(globalStateInfo.unstakeFreezeSeconds, 0) * 1000;
+
+      const isFuture = (date: number) => {
+        return date > Date.now();
+      };
+
+      let found = false;
+
+      userAccountInfo.stakes.forEach((stake) => {
+        const unstaked = stake.unstakeTime.cmp(new BN(0)) > 0;
+        const startDateInMs = bnToRegular(stake.unstakeTime, 0) * 1000;
+        const endDateInMs = startDateInMs + freezeDurationInMs;
+
+        const pendingUnstake = unstaked && isFuture(endDateInMs);
+
+        if (pendingUnstake) {
+          setPendingUnstake(true);
+          setFreezeEndDate(endDateInMs);
+          found = true;
+          return;
+        }
+      });
+
+      if (!found) {
+        setPendingUnstake(false);
+        setFreezeEndDate(undefined);
+      }
+    }
+  }, [userAccountInfo, globalStateInfo]);
 
   const handleOpenStakeModalButtonClick = async () => {
     setStakeModalIsOpen(true);
@@ -493,6 +528,8 @@ export default function Home() {
               ? bnToRegular(globalStateInfo.currentApy, 2)
               : 0
           }
+          unstakePending={pendingUnstake}
+          freezeEndDate={freezeEndDate}
           handleCloseModal={() => setStakeModalIsOpen(false)}
         />
       ) : null}
@@ -500,6 +537,8 @@ export default function Home() {
       {unstakeModalIsOpen ? (
         <UnstakeModal
           userAccountData={userAccountInfo as UserAccountData}
+          unstakePending={pendingUnstake}
+          freezeEndDate={freezeEndDate}
           handleCloseModal={() => setUnstakeModalIsOpen(false)}
         />
       ) : null}
