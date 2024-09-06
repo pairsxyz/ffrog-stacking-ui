@@ -28,6 +28,8 @@ export default function Home() {
     useState(false);
   const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
+  const [pendingUnstake, setPendingUnstake] = useState(false);
+  const [freezeEndDate, setFreezeEndDate] = useState<number | undefined>();
   const [frogBalance, setFrogBalance] = useState("0");
 
   const { publicKey: address, connected: isConnected } = useWallet();
@@ -93,6 +95,39 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [program, address]);
 
+  useEffect(() => {
+    if (userAccountInfo && globalStateInfo) {
+      const freezeDurationInMs =
+        bnToRegular(globalStateInfo.unstakeFreezeSeconds, 0) * 1000;
+
+      const isFuture = (date: number) => {
+        return date > Date.now();
+      };
+
+      let found = false;
+
+      userAccountInfo.stakes.forEach((stake) => {
+        const unstaked = stake.unstakeTime.cmp(new BN(0)) > 0;
+        const startDateInMs = bnToRegular(stake.unstakeTime, 0) * 1000;
+        const endDateInMs = startDateInMs + freezeDurationInMs;
+
+        const pendingUnstake = unstaked && isFuture(endDateInMs);
+
+        if (pendingUnstake) {
+          setPendingUnstake(true);
+          setFreezeEndDate(endDateInMs);
+          found = true;
+          return;
+        }
+      });
+
+      if (!found) {
+        setPendingUnstake(false);
+        setFreezeEndDate(undefined);
+      }
+    }
+  }, [userAccountInfo, globalStateInfo]);
+
   const handleOpenStakeModalButtonClick = async () => {
     setStakeModalIsOpen(true);
 
@@ -129,7 +164,7 @@ export default function Home() {
   const getCurrentRewards = () => {
     let totalRewards = 0;
 
-    userAccountInfo?.stakes.forEach((stake) => {
+    userAccountInfo?.stakes.forEach((stake, index) => {
       const start = bnToRegular(stake.startTime, 0) * 1000;
       const end =
         stake.unstakeTime.cmp(new BN(0)) > 0
@@ -137,14 +172,14 @@ export default function Home() {
           : Date.now();
 
       const amount = bnToRegular(stake.amount);
-      const apy = bnToRegular(stake.apyAtStake, 2);
+      const apy = bnToRegular(stake.apyAtStake, 2); // e.g. 18%
 
-      const diff = end - start;
+      const diff = end - start; // staking period in milliseconds
 
-      const millisecondsInOneDay = 1000 * 60 * 60 * 24;
-      const differenceInDays = Math.floor(diff / millisecondsInOneDay);
+      const millisecondsInOneYear = 1000 * 60 * 60 * 24 * 365; // milliseconds in a year
+      const yearlyRate = apy / 100;
 
-      const reward = amount * (apy / 100) * (differenceInDays / 365);
+      const reward = (amount * yearlyRate * diff) / millisecondsInOneYear;
 
       totalRewards += reward;
     });
@@ -492,6 +527,8 @@ export default function Home() {
               ? bnToRegular(globalStateInfo.currentApy, 2)
               : 0
           }
+          unstakePending={pendingUnstake}
+          freezeEndDate={freezeEndDate}
           handleCloseModal={() => setStakeModalIsOpen(false)}
         />
       ) : null}
@@ -499,6 +536,8 @@ export default function Home() {
       {unstakeModalIsOpen ? (
         <UnstakeModal
           userAccountData={userAccountInfo as UserAccountData}
+          unstakePending={pendingUnstake}
+          freezeEndDate={freezeEndDate}
           handleCloseModal={() => setUnstakeModalIsOpen(false)}
         />
       ) : null}
