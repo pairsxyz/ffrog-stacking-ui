@@ -464,7 +464,7 @@ export default function Home() {
       </div>
 
       <Image
-        className="hidden xl:block w-[159px] h-[227px] object-contain absolute right-0 sm:right-[25%] bottom-[25%] -z-10"
+        className="hidden xl:block w-[159px] h-[227px] object-contain absolute right-0 sm:right-[25%] bottom-[25%] 2xl:bottom-[35%] 2xl:right-[35%] -z-10"
         src={drFrog}
         alt="background"
         priority
