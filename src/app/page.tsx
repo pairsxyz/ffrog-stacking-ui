@@ -129,7 +129,7 @@ export default function Home() {
   const getCurrentRewards = () => {
     let totalRewards = 0;
 
-    userAccountInfo?.stakes.forEach((stake) => {
+    userAccountInfo?.stakes.forEach((stake, index) => {
       const start = bnToRegular(stake.startTime, 0) * 1000;
       const end =
         stake.unstakeTime.cmp(new BN(0)) > 0
@@ -137,14 +137,14 @@ export default function Home() {
           : Date.now();
 
       const amount = bnToRegular(stake.amount);
-      const apy = bnToRegular(stake.apyAtStake, 2);
+      const apy = bnToRegular(stake.apyAtStake, 2); // e.g. 18%
 
-      const diff = end - start;
+      const diff = end - start; // staking period in milliseconds
 
-      const millisecondsInOneDay = 1000 * 60 * 60 * 24;
-      const differenceInDays = Math.floor(diff / millisecondsInOneDay);
+      const millisecondsInOneYear = 1000 * 60 * 60 * 24 * 365; // milliseconds in a year
+      const yearlyRate = apy / 100;
 
-      const reward = amount * (apy / 100) * (differenceInDays / 365);
+      const reward = (amount * yearlyRate * diff) / millisecondsInOneYear;
 
       totalRewards += reward;
     });
