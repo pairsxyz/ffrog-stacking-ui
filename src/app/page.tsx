@@ -330,13 +330,20 @@ export default function Home() {
       </div>
 
       <div
-        className="w-[777px] h-[212px] xl:w-[1019px] xl:h-[279px] flex flex-col items-center justify-center 4xl:translate-y-[180%]"
+        className="w-[777px] h-[212px] xl:w-[1019px] xl:h-[279px] flex flex-col items-center justify-center 4xl:translate-y-[180%] relative"
         style={{
           backgroundImage: "url(/rock.webp)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
+        <Image
+          className="hidden xl:block w-[159px] h-[227px] object-contain absolute right-[15%] bottom-[60%] -z-10"
+          src={drFrog}
+          alt="background"
+          priority
+          sizes="100vw"
+        />
         {!isConnected ? (
           <>
             <p className="text-base xl:text-3xl font-medium text-[#3D3D3D] mt-4 z-10">
@@ -462,14 +469,6 @@ export default function Home() {
           COMING SOON...
         </p>
       </div>
-
-      <Image
-        className="hidden xl:block w-[159px] h-[227px] object-contain absolute right-0 sm:right-[25%] bottom-[25%] 2xl:bottom-[35%] 2xl:right-[35%] -z-10"
-        src={drFrog}
-        alt="background"
-        priority
-        sizes="100vw"
-      />
 
       <Image
         className="hidden xl:block w-[200px] xl:w-[338px] h-[374px] object-contain absolute left-0 bottom-0"
