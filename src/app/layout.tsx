@@ -5,8 +5,8 @@ import "../styles/globals.css";
 import { Web3ModalProvider, ProgramProvider } from "@/providers";
 
 export const metadata: Metadata = {
-  title: "ffrog",
-  description: "ffrog",
+  title: "FFROG Staking",
+  description: "FFROG Staking",
 };
 
 export default function RootLayout({
