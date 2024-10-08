@@ -13,12 +13,14 @@ export default function StakeModal({
   balance,
   apy,
   unstakePending,
+  unstakeFinished,
   freezeEndDate,
   handleCloseModal,
 }: {
   balance: string;
   apy: number | undefined;
   unstakePending: boolean;
+  unstakeFinished: boolean;
   freezeEndDate: number | undefined;
   handleCloseModal: () => void;
 }) {
@@ -80,7 +82,7 @@ export default function StakeModal({
           boxShadow: "0px 0.346px 0.346px 0px rgba(0, 0, 0, 0.25)",
         }}
       >
-        {!unstakePending ? (
+        {!unstakePending && !unstakeFinished ? (
           <>
             <div
               className="w-[249px] h-[180px] xl:w-[417px] xl:h-[300px] flex flex-col items-center justify-center p-4"
@@ -158,6 +160,27 @@ export default function StakeModal({
               alt="background"
               sizes="100vw"
             />
+          </>
+        ) : !unstakePending && unstakeFinished ? (
+          <>
+            <p
+              className="w-3/4 text-base xl:text-3xl font-medium text-[#F5F5F5] text-center mb-20"
+              style={{
+                WebkitTextStrokeWidth: 1.4,
+                WebkitTextStrokeColor: "#000",
+              }}
+            >
+              {`PLEASE WITHDRAW UNSTAKED FUNDS TO STAKE AGAIN`}
+            </p>
+
+            <button
+              className="w-[180px] h-[49px] xl:w-[280px] xl:h-[69px] flex items-center justify-center p-1 rounded-lg border-4 border-black bg-[#F6EFDB]"
+              onClick={handleCloseModal}
+            >
+              <span className="text-base xl:text-[35px] font-medium text-black">
+                OK
+              </span>
+            </button>
           </>
         ) : (
           <>
