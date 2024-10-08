@@ -4,18 +4,25 @@ import branchRight from "../../../public/branch-right.webp";
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
-import { bnToRegular, unstakeAll, UserAccountData } from "@/anchor/setup";
+import {
+  bnToRegular,
+  unstakeAll,
+  UserAccountData,
+  withdrawAll,
+} from "@/anchor/setup";
 import Alert from "../alert/alert";
 import { getCountdown } from "@/utils/dateHelpers";
 
 export default function UnstakeModal({
   userAccountData,
   unstakePending,
+  unstakeFinished,
   freezeEndDate,
   handleCloseModal,
 }: {
   userAccountData: UserAccountData | null;
   unstakePending: boolean;
+  unstakeFinished: boolean;
   freezeEndDate: number | undefined;
   handleCloseModal: () => void;
 }) {
@@ -69,6 +76,28 @@ export default function UnstakeModal({
     }
   };
 
+  const handleWithdrawClick = async () => {
+    if (!wallet.publicKey) {
+      throw new Error("Address not defined");
+    }
+
+    if (!program?.provider.connection) {
+      throw new Error("Connection not established");
+    }
+
+    try {
+      setPending(true);
+      await withdrawAll(program, wallet);
+      setStakeSuccess(true);
+    } catch (e) {
+      console.log("ERROR: ", e);
+      setStakeSuccess(false);
+    } finally {
+      setPending(false);
+      setStakeFinished(true);
+    }
+  };
+
   return !stakeFinished ? (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
@@ -79,7 +108,7 @@ export default function UnstakeModal({
         onClick={(e) => e.stopPropagation()}
         style={{ boxShadow: "0px 0.346px 0.346px 0px rgba(0, 0, 0, 0.25)" }}
       >
-        {!unstakePending ? (
+        {!unstakePending && !unstakeFinished ? (
           <>
             <div className="flex flex-col gap-3 items-center justify-center mt-0 xl:mt-28">
               <p
@@ -156,6 +185,45 @@ export default function UnstakeModal({
               sizes="100vw"
             />
           </>
+        ) : !unstakePending && unstakeFinished ? (
+          <>
+            <div className="flex flex-col gap-3 items-center justify-center mt-0 xl:mt-28">
+              <p
+                className="text-base xl:text-3xl font-medium text-[#F5F5F5] text-center"
+                style={{
+                  WebkitTextStrokeWidth: 1.4,
+                  WebkitTextStrokeColor: "#000",
+                }}
+              >
+                WITHDRAW ALL TOKENS?
+              </p>
+              <br />
+            </div>
+
+            <button
+              className="w-2/3 h-1/3 xl:w-[332px] xl:h-[69px] flex items-center justify-center p-2 rounded-lg border-4 border-black bg-[#F6EFDB]"
+              onClick={handleWithdrawClick}
+              disabled={pending || !wallet.publicKey}
+            >
+              <span className="text-base xl:text-[45px] font-medium text-black">
+                CONFIRM
+              </span>
+            </button>
+
+            <Image
+              className="w-[373px] h-[373px] hidden xl:block  absolute -left-10 -top-24"
+              src={branchLeft}
+              alt="background"
+              sizes="100vw"
+            />
+
+            <Image
+              className="w-[373px] h-[373px] hidden xl:block  absolute -right-16 -top-24"
+              src={branchRight}
+              alt="background"
+              sizes="100vw"
+            />
+          </>
         ) : (
           <>
             <p
@@ -165,7 +233,7 @@ export default function UnstakeModal({
                 WebkitTextStrokeColor: "#000",
               }}
             >
-              {`YOUR $FFROG WILL ARRIVE IN YOUR WALLET IN ${countdown[0]} DAYS ${countdown[1]} HOURS AND ${countdown[2]} MINUTES`}
+              {`YOU WILL BE ABLE TO WITHDRAW $FFROG TOKENS IN ${countdown[0]} DAYS ${countdown[1]} HOURS AND ${countdown[2]} MINUTES`}
             </p>
 
             <button
@@ -183,7 +251,7 @@ export default function UnstakeModal({
   ) : (
     <Alert
       type={`${stakeSuccess ? "SUCCESS" : "FAIL"}`}
-      mode="UNSTAKE"
+      mode={!unstakePending && unstakeFinished ? "WITHDRAW" : "UNSTAKE"}
       handleCloseModal={() => setStakeFinished(false)}
       handleButtonClick={() => setStakeFinished(false)}
     />

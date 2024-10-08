@@ -34,6 +34,9 @@ export const TOKEN_MINT = new PublicKey(
 export const USER_POOL_VAULT_ADDRESS = new PublicKey(
   `CwtCpW1ysWRFowcpzfp3db1yofrmzeBGXuLX57yNL51Q`
 );
+export const REWARD_VAULT_TOKEN_ACCOUNT = new PublicKey(
+  `Depdj1JufGndwZFjxaEX1K2idvoPjq2pnKvRjXZdt5ju`
+);
 
 export const SOLANA_NETWORK = WalletAdapterNetwork.Mainnet;
 export const CONNECTION = new Connection(endpoint, "confirmed");
@@ -237,6 +240,66 @@ export async function unstakeAll(
     throw value.err;
   } else {
     console.log("UNSTAKE SUCCESS:", signature);
+  }
+}
+
+export async function withdrawAll(
+  program: Program<StakingContract>,
+  wallet: WalletContextState
+) {
+  const [programStateAccount, bump] = PublicKey.findProgramAddressSync(
+    [Buffer.from("ny_state_of_mind")],
+    program.programId
+  );
+
+  const [rewardVaultManager, rewardVaultManagerBump] =
+    PublicKey.findProgramAddressSync(
+      [Buffer.from("reward_pool_vault_manager")],
+      program.programId
+    );
+
+  const [userAccountPDA, userAccountBump] = PublicKey.findProgramAddressSync(
+    [wallet.publicKey!.toBuffer(), Buffer.from("user")],
+    program.programId
+  );
+
+  const userTokenAccountAddress = await getAssociatedTokenAccount(
+    TOKEN_MINT,
+    wallet,
+    program.provider.connection
+  );
+
+  const tx = await program.methods
+    .withdrawAllTokens(bump, rewardVaultManagerBump)
+    .accounts({
+      user: userAccountPDA,
+      userTokenAccount: userTokenAccountAddress,
+      userPoolVault: USER_POOL_VAULT_ADDRESS,
+      programStateAccount: programStateAccount,
+      signer: wallet.publicKey!,
+      rewardPoolVault: REWARD_VAULT_TOKEN_ACCOUNT,
+      rewardPoolVaultManager: rewardVaultManager,
+      tokenProgram: TOKEN_PROGRAM_ID,
+      systemProgram: web3.SystemProgram.programId,
+      mint: TOKEN_MINT,
+    })
+    .transaction();
+
+  const signature = await wallet.sendTransaction(
+    tx,
+    program.provider.connection
+  );
+
+  // Confirm the transaction
+  const { value } = await program.provider.connection.confirmTransaction(
+    signature
+  );
+
+  if (value.err) {
+    console.error("WITHDRAW FAILED:", value.err);
+    throw value.err;
+  } else {
+    console.log("WITHDRAW SUCCESS:", signature);
   }
 }
 

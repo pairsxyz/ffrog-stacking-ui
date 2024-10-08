@@ -29,6 +29,7 @@ export default function Home() {
   const [stakeModalIsOpen, setStakeModalIsOpen] = useState(false);
   const [unstakeModalIsOpen, setUnstakeModalIsOpen] = useState(false);
   const [pendingUnstake, setPendingUnstake] = useState(false);
+  const [finishedUnstake, setFinishedUnstake] = useState(false);
   const [freezeEndDate, setFreezeEndDate] = useState<number | undefined>();
   const [frogBalance, setFrogBalance] = useState("0");
 
@@ -104,24 +105,31 @@ export default function Home() {
         return date > Date.now();
       };
 
-      let found = false;
+      let foundPendingUnstake = false;
 
       userAccountInfo.stakes.forEach((stake) => {
         const unstaked = stake.unstakeTime.cmp(new BN(0)) > 0;
         const startDateInMs = bnToRegular(stake.unstakeTime, 0) * 1000;
         const endDateInMs = startDateInMs + freezeDurationInMs;
 
-        const pendingUnstake = unstaked && isFuture(endDateInMs);
+        const future = isFuture(endDateInMs);
+
+        const pendingUnstake = unstaked && future;
+        const finishedUnstake = unstaked && !future;
+
+        if (finishedUnstake) {
+          setFinishedUnstake(true);
+        }
 
         if (pendingUnstake) {
           setPendingUnstake(true);
           setFreezeEndDate(endDateInMs);
-          found = true;
+          foundPendingUnstake = true;
           return;
         }
       });
 
-      if (!found) {
+      if (!foundPendingUnstake) {
         setPendingUnstake(false);
         setFreezeEndDate(undefined);
       }
@@ -528,6 +536,7 @@ export default function Home() {
               : 0
           }
           unstakePending={pendingUnstake}
+          unstakeFinished={finishedUnstake}
           freezeEndDate={freezeEndDate}
           handleCloseModal={() => setStakeModalIsOpen(false)}
         />
@@ -537,6 +546,7 @@ export default function Home() {
         <UnstakeModal
           userAccountData={userAccountInfo as UserAccountData}
           unstakePending={pendingUnstake}
+          unstakeFinished={finishedUnstake}
           freezeEndDate={freezeEndDate}
           handleCloseModal={() => setUnstakeModalIsOpen(false)}
         />
